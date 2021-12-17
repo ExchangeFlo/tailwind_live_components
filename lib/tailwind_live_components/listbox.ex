@@ -2,11 +2,11 @@ defmodule TailwindLiveComponents.Listbox do
   use Phoenix.Component
 
   @moduledoc """
-  <.listbox form={:basket} field={:fruit} value={:banana} options={[:apple, :banana, :cherry]}>
-    <:option let={option_params}>
-      <.listbox_option {option_params} />
-    </:option>
-  </.listbox>
+  <.listbox form={:basket} field={:fruit} prompt="Select Fruit" options={[
+      %{value: "apple", display: "Apple"},
+      %{value: "banana", display: "Banana"},
+      %{value: "cherry", display: "Cherry"}
+    ]} />
   """
 
   @doc """
@@ -14,21 +14,26 @@ defmodule TailwindLiveComponents.Listbox do
 
   ## Options
 
-    * `form` - the form
-  prop form
-  prop field
-  prop value
-  prop options
+    * `form` - The form identifier
+    * `field` - The field name
+    * `label` - The text for the generated `<label>` element
+    * `prompt` - An option to include at the top of the options with the given prompt text
+    * `options` - The options in the list box
   """
   def listbox(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
     label_id = input_id <> "-label"
-    selected_value = Phoenix.HTML.Form.input_value(assigns.form, assigns.field) || assigns.options |> List.first() |> Map.get(:value)
-    selected_index = Enum.find_index(assigns.options, fn %{value: value} -> value == selected_value end)
-    selected_display = assigns.options |> Enum.at(selected_index) |> Map.get(:display)
+
+    prompt = Map.get(assigns, :prompt, Phoenix.HTML.raw("&nbsp;"))
+    options = Map.get(assigns, :options, [])
+
+    selected_value = Phoenix.HTML.Form.input_value(assigns.form, assigns.field)
+    selected_index = Enum.find_index(options, fn %{value: value} -> value == selected_value end)
+    selected_display = if(selected_index, do: options |> Enum.at(selected_index) |> Map.get(:display), else: prompt)
 
     assigns =
       assigns
+      |> assign(:options, options)
       |> assign_new(:input_id, fn -> input_id end)
       |> assign_new(:selected_value, fn -> selected_value end)
       |> assign_new(:selected_index, fn -> selected_index end)
@@ -39,12 +44,12 @@ defmodule TailwindLiveComponents.Listbox do
     <div
       x-data={"TailwindLiveComponents.listbox({
         open: false,
-        selectedIndex: #{@selected_index},
-        activeIndex: #{@selected_index}
+        selectedIndex: #{@selected_index || "null"},
+        activeIndex: #{@selected_index || "null"}
       })"}
       x-init="init()"
     >
-      <%= Phoenix.HTML.Form.hidden_input(@form, @field, id: @input_id, "x-model": "selected.value") %>
+      <%= Phoenix.HTML.Form.hidden_input(@form, @field, id: @input_id, "x-model": "selectedValue") %>
 
       <label id={@label_id} class="block text-sm font-medium text-gray-700" @click="$refs.button.focus()">
         <%= @label %>
@@ -61,7 +66,7 @@ defmodule TailwindLiveComponents.Listbox do
           :aria-expanded="open"
           aria-labelledby={@label_id}
         >
-          <span x-text="selected.display" class="block truncate"><%= @selected_display %></span>
+          <span x-text="selectedDisplay" class="block truncate"><%= @selected_display %></span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <Heroicons.Solid.selector class="h-5 w-5 text-gray-400" />
           </span>

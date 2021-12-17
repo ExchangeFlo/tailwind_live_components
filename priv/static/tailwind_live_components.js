@@ -14,12 +14,12 @@ window.TailwindLiveComponents.listbox = function (e) {
     optionCount: null,
     open: false,
     activeIndex: null,
-    selectedIndex: 0,
-    get active() {
-      return this.items[this.activeIndex]
+    selectedIndex: null,
+    get selectedValue() {
+      return null !== this.selectedIndex ? this.items[this.selectedIndex].value : null
     },
-    get selected() {
-      return this.items[this.selectedIndex]
+    get selectedDisplay() {
+      return null !== this.selectedIndex ? this.items[this.selectedIndex].display : null
     },
     choose(e) {
       this.selectedIndex = e,
@@ -31,7 +31,7 @@ window.TailwindLiveComponents.listbox = function (e) {
         this.open = true,
         this.$nextTick((() => {
           this.$refs.listbox.focus(),
-            this.$refs.listbox.children[this.activeIndex].scrollIntoView({ block: "nearest" })
+            null !== this.activeIndex && this.$refs.listbox.children[this.activeIndex].scrollIntoView({ block: "nearest" })
         }))
       )
     },
@@ -42,14 +42,18 @@ window.TailwindLiveComponents.listbox = function (e) {
       this.open = false, this.$refs.button.focus()
     },
     onArrowUp() {
-      this.activeIndex = this.activeIndex - 1 < 0 ? this.optionCount - 1 : this.activeIndex - 1,
+      this.activeIndex = this.activeIndex === null || this.activeIndex - 1 < 0 ? this.optionCount - 1 : this.activeIndex - 1,
         this.$refs.listbox.children[this.activeIndex].scrollIntoView({ block: "nearest" })
     },
     onArrowDown() {
-      this.activeIndex = this.activeIndex + 1 > this.optionCount - 1 ? 0 : this.activeIndex + 1,
-        this.$refs.listbox.children[this.activeIndex].scrollIntoView({ block: "nearest" })
+      if (this.activeIndex === null) {
+        this.activeIndex = 0,
+          this.$refs.listbox.children[this.activeIndex].scrollIntoView({ block: "nearest" })
+      } else {
+        this.activeIndex = this.activeIndex + 1 > this.optionCount - 1 ? 0 : this.activeIndex + 1,
+          this.$refs.listbox.children[this.activeIndex].scrollIntoView({ block: "nearest" })
+      }
     },
     ...e
   }
 }
-
