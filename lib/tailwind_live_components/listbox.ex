@@ -107,11 +107,15 @@ defmodule TailwindLiveComponents.Listbox do
   end
 
   @doc """
-  prop value
-  prop display
-  prop index
-  prop selected, :boolean, default: false
-  prop option_id
+  Renders the listbox element
+
+  ## Options
+
+    * `value` - The value field for the option
+    * `field` - The display field for the option
+    * `index` - The index position in the option list
+    * `selected` - Boolean indicating whether this option is selected
+    * `option_id` - The DOM id to use for this option
   """
   def listbox_option(assigns) do
     ~H"""
