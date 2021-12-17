@@ -1,0 +1,12 @@
+{
+  "name": "tailwind_live_components",
+  "version": "3.1.0",
+  "main": "./priv/static/tailwind_live_components.js",
+  "repository": {},
+  "files": [
+    "README.md",
+    "LICENSE.md",
+    "package.json",
+    "priv/static/tailwind_live_components.js"
+  ]
+}
