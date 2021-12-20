@@ -38,7 +38,7 @@ defmodule TailwindLiveComponents.Toggle do
         @keydown.space.prevent="on = !on"
         class={"#{background(@selected_value)} relative inline-flex flex-shrink-0 h-8 w-14 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-900"}
         :class="{
-          'bg-sky-900 bg-opacity-75': on,
+          'bg-sky-900/75': on,
           'bg-gray-200': !(on)
         }"
         role="switch"
@@ -65,7 +65,7 @@ defmodule TailwindLiveComponents.Toggle do
     """
   end
 
-  defp background("true"), do: "bg-sky-900 bg-opacity-75"
+  defp background("true"), do: "bg-sky-900/75"
   defp background(_), do: "bg-gray-200"
 
   defp position("true"), do: "translate-x-6"

@@ -135,9 +135,9 @@ defmodule TailwindLiveComponents.Listbox do
       @mouseleave="activeIndex = null"
       data-value={@option.value}
       data-display={@option.display}
-      class={"cursor-default select-none relative py-2 pl-3 pr-9 #{option_classes(@selected, "bg-sky-900 bg-opacity-75")}"}
+      class={"cursor-default select-none relative py-2 pl-3 pr-9 #{option_classes(@selected, "bg-sky-900/75")}"}
       :class={"{
-        'text-white bg-sky-900 bg-opacity-75': activeIndex === #{@index},
+        'text-white bg-sky-900/75': activeIndex === #{@index},
         'text-gray-900': !(activeIndex === #{@index})
       }"}
     >

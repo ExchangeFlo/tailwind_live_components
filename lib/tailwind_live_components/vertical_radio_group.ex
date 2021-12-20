@@ -93,7 +93,7 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
       @keydown.arrow-down.prevent="onArrowDown()"
       class="relative flex px-5 py-4 rounded-lg shadow-md cursor-pointer focus:outline-none bg-white border border-gray-300 focus:ring-1 focus:ring-sky-900 focus:border-sky-900"
       :class={"{
-        'bg-sky-900 bg-opacity-75 border-transparent': selectedIndex === #{@index},
+        'bg-sky-900/75 border-transparent': selectedIndex === #{@index},
         'bg-white': !(selectedIndex === #{@index})
       }"}
 
