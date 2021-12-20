@@ -2,6 +2,13 @@ window.TailwindLiveComponents = {}
 
 window.TailwindLiveComponents.listbox = function (e) {
   return {
+    items: [],
+    activeDescendant: null,
+    optionCount: null,
+    open: false,
+    activeIndex: null,
+    selectedIndex: null,
+
     init() {
       this.items = Array.from(this.$refs.listbox.children).map(item => item.dataset),
         this.optionCount = this.items.length,
@@ -9,12 +16,6 @@ window.TailwindLiveComponents.listbox = function (e) {
           this.open && (null !== this.activeIndex ? this.activeDescendant = this.$refs.listbox.children[this.activeIndex].id : this.activeDescendant = "")
         }))
     },
-    items: [],
-    activeDescendant: null,
-    optionCount: null,
-    open: false,
-    activeIndex: null,
-    selectedIndex: null,
     get selectedValue() {
       return null !== this.selectedIndex ? this.items[this.selectedIndex].value : null
     },
@@ -55,5 +56,56 @@ window.TailwindLiveComponents.listbox = function (e) {
       }
     },
     ...e
+  }
+}
+
+window.TailwindLiveComponents.radioGroup = function (e) {
+  return {
+    options: [],
+    optionCount: null,
+    activeIndex: null,
+    selectedIndex: null,
+
+    init() {
+      this.options = Array.from(this.$refs.radiogroup.children),
+        this.optionCount = this.options.length
+
+      for (let option of this.options)
+        option.addEventListener("change", (() => {
+          this.selectedIndex = parseInt(option.dataset.index)
+        })),
+          option.addEventListener("focus", (() => {
+            this.activeIndex = parseInt(option.dataset.index)
+          }))
+
+      window.addEventListener("focus", (() => {
+        console.log("Focus change"),
+          this.options.includes(document.activeElement) || (console.log("HIT"), this.activeIndex = null)
+      }), true)
+    },
+    get value() {
+      return null !== this.selectedIndex ? this.options[this.selectedIndex].dataset.value : null
+    },
+    choose(e) {
+      this.selectedIndex = this.activeIndex = e
+    },
+    onArrowUp() {
+      if (this.activeIndex === null) {
+        this.activeIndex = 0
+      } else {
+        this.activeIndex = this.activeIndex - 1 < 0 ? this.optionCount - 1 : this.activeIndex - 1
+      }
+
+      this.options[this.activeIndex].focus()
+    },
+    onArrowDown() {
+      if (this.activeIndex === null) {
+        this.activeIndex = 0
+      } else {
+        this.activeIndex = this.activeIndex + 1 > this.optionCount - 1 ? 0 : this.activeIndex + 1
+      }
+
+      this.options[this.activeIndex].focus()
+    }
   }
 }

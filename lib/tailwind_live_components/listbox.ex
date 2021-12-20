@@ -57,7 +57,7 @@ defmodule TailwindLiveComponents.Listbox do
       <div class="mt-1 relative">
         <button
           type="button"
-          class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 sm:text-sm"
           x-ref="button"
           @keydown.arrow-up.stop.prevent="onButtonClick()"
           @keydown.arrow-down.stop.prevent="onButtonClick()"
@@ -78,6 +78,7 @@ defmodule TailwindLiveComponents.Listbox do
           x-transition:leave-end="opacity-0"
           class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
           @click.away="open = false"
+          @blur="open = false"
           @keydown.enter.stop.prevent="onOptionSelect()"
           @keydown.space.stop.prevent="onOptionSelect()"
           @keydown.escape="onEscape()"
@@ -127,8 +128,11 @@ defmodule TailwindLiveComponents.Listbox do
       @mouseleave="activeIndex = null"
       data-value={@value}
       data-display={@display}
-      class={"cursor-default select-none relative py-2 pl-3 pr-9 #{option_classes(@selected, "bg-indigo-600")}"}
-      :class={"{ 'text-white bg-indigo-600': activeIndex === #{@index}, 'text-gray-900': !(activeIndex === #{@index}) }"}
+      class={"cursor-default select-none relative py-2 pl-3 pr-9 #{option_classes(@selected, "bg-sky-900")}"}
+      :class={"{
+        'text-white bg-sky-900': activeIndex === #{@index},
+        'text-gray-900': !(activeIndex === #{@index})
+      }"}
     >
       <span
         class={"#{text_classes(@selected)} block truncate"}
@@ -138,10 +142,13 @@ defmodule TailwindLiveComponents.Listbox do
       </span>
 
       <span
-        class={"absolute inset-y-0 right-0 flex items-center pr-4 #{checkbox_classes(@selected, "text-indigo-600")}"}
-        :class={"{ 'text-white': activeIndex === #{@index}, 'text-indigo-600': !(activeIndex === #{@index}) }"}
         x-show={"selectedIndex === #{@index}"}
+        class={"absolute inset-y-0 right-0 flex items-center pr-4 #{checkbox_classes(@selected, "text-sky-900")}"}
         style={unless @selected, do: "display: none;"}
+        :class={"{
+          'text-white': activeIndex === #{@index},
+          'text-sky-900': !(activeIndex === #{@index})
+        }"}
       >
         <Heroicons.Solid.check class="h-5 w-5" />
       </span>
