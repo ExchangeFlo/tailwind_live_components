@@ -131,7 +131,7 @@ defmodule TailwindLiveComponents.HorizontalRadioGroup do
           fill="none"
           class="w-6 h-6"
           :class={"{
-            'invisible': !(selectedIndex === #{@index}
+            'invisible': !(selectedIndex === #{@index})
           }"}
         >
           <circle cx="12" cy="12" r="12" fill="#fff" fill-opacity="0.2"></circle>
