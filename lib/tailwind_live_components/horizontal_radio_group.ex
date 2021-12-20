@@ -1,4 +1,4 @@
-defmodule TailwindLiveComponents.RadioGroup do
+defmodule TailwindLiveComponents.HorizontalRadioGroup do
   use Phoenix.Component
 
   @moduledoc """
@@ -25,6 +25,7 @@ defmodule TailwindLiveComponents.RadioGroup do
 
     selected_value = Phoenix.HTML.Form.input_value(assigns.form, assigns.field)
     selected_index = Enum.find_index(options, fn %{value: value} -> value == selected_value end)
+
     selected_display = if(selected_index, do: options |> Enum.at(selected_index) |> Map.get(:display), else: prompt)
 
     assigns =
@@ -47,18 +48,17 @@ defmodule TailwindLiveComponents.RadioGroup do
     >
       <%= Phoenix.HTML.Form.hidden_input(@form, @field, id: @input_id, "x-model": "value") %>
 
-      <label id={@label_id} class="block text-sm font-medium text-gray-700">
+      <label id={@label_id} class="block text-md font-medium text-gray-700">
         <%= @label %>
       </label>
       <div
-        class="space-y-2"
+        class={"mt-2 grid grid-cols-1 gap-y-2 #{grid_columns(@options)} sm:gap-x-2"}
         role="none"
         x-ref="radiogroup"
       >
-        <%= for {%{value: value, display: display}, index} <- Enum.with_index(@options) do %>
+        <%= for {option, index} <- Enum.with_index(@options) do %>
           <.radio
-            value={value}
-            display={display}
+            option={option}
             index={index}
             option_id={"#{@input_id}-option-#{index}"}
           />
@@ -73,6 +73,9 @@ defmodule TailwindLiveComponents.RadioGroup do
       assigns
       |> assign_new(:label_id, fn -> assigns.option_id <> "-label" end)
       |> assign_new(:description_id, fn -> assigns.option_id <> "-description" end)
+      |> assign_new(:value, fn -> Map.get(assigns.option, :value) end)
+      |> assign_new(:display, fn -> Map.get(assigns.option, :display) end)
+      |> assign_new(:detail, fn -> Map.get(assigns.option, :detail) end)
 
     ~H"""
     <div
@@ -87,8 +90,8 @@ defmodule TailwindLiveComponents.RadioGroup do
       @click={"choose(#{@index})"}
       @keydown.enter.prevent={"choose(#{@index})"}
       @keydown.space.prevent={"choose(#{@index})"}
-      @keydown.arrow-up.prevent="onArrowUp()"
-      @keydown.arrow-down.prevent="onArrowDown()"
+      @keydown.arrow-left.prevent="onArrowUp()"
+      @keydown.arrow-right.prevent="onArrowDown()"
       class="relative flex px-5 py-4 rounded-lg shadow-md cursor-pointer focus:outline-none bg-white border border-gray-300 focus:ring-1 focus:ring-sky-900 focus:border-sky-900"
       :class={"{
         'bg-sky-900 bg-opacity-75 border-transparent': selectedIndex === #{@index},
@@ -96,44 +99,65 @@ defmodule TailwindLiveComponents.RadioGroup do
       }"}
 
     >
-      <div class="flex items-center justify-between w-full">
-        <div class="flex items-center">
-          <div class="text-sm">
-            <p
+      <div class="flex justify-between w-full">
+        <div class="flex-1 flex">
+          <div class="flex flex-col">
+            <span
               id={@label_id}
-              class="font-medium"
+              class="font-medium text-md"
               :class={"{
                 'text-white': selectedIndex === #{@index},
                 'text-gray-900': !(selectedIndex === #{@index})
               }"}
             >
               <%= @display %>
-            </p>
-            <span
-              id={@description_id}
-              class="inline"
-              :class={"{
-                'text-sky-100': selectedIndex === #{@index},
-                'text-gray-500': !(selectedIndex === #{@index})
-              }"}
-            >
-              <span>12GB/6 CPUs</span>
-              <span aria-hidden="true"> · </span>
-              <span>160 GB SSD disk</span>
             </span>
+            <%= if @detail do %>
+              <span
+                id={@description_id}
+                class="inline text-sm"
+                :class={"{
+                  'text-sky-200': selectedIndex === #{@index},
+                  'text-gray-500': !(selectedIndex === #{@index})
+                }"}
+              >
+                <span><%= @detail %></span>
+              </span>
+            <% end %>
           </div>
         </div>
-        <div
-          x-show={"selectedIndex === #{@index}"}
-          class="flex-shrink-0 text-white"
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          class="w-6 h-6"
+          :class={"{
+            'invisible': !(selectedIndex === #{@index}
+          }"}
         >
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="12" fill="#fff" fill-opacity="0.2"></circle>
-            <path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </div>
+          <circle cx="12" cy="12" r="12" fill="#fff" fill-opacity="0.2"></circle>
+          <path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
       </div>
     </div>
     """
+  end
+
+  defp grid_columns(options) do
+    case length(options) do
+      0 -> "sm:grid-cols-1"
+      1 -> "sm:grid-cols-1"
+      2 -> "sm:grid-cols-2"
+      3 -> "sm:grid-cols-3"
+      4 -> "sm:grid-cols-4"
+      5 -> "sm:grid-cols-5"
+      6 -> "sm:grid-cols-6"
+      7 -> "sm:grid-cols-7"
+      8 -> "sm:grid-cols-8"
+      9 -> "sm:grid-cols-9"
+      10 -> "sm:grid-cols-10"
+      11 -> "sm:grid-cols-11"
+      12 -> "sm:grid-cols-12"
+      _ -> "sm:grid-cols-12"
+    end
   end
 end

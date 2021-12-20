@@ -8,6 +8,7 @@ window.TailwindLiveComponents.listbox = function (e) {
     open: false,
     activeIndex: null,
     selectedIndex: null,
+    prompt: null,
 
     init() {
       this.items = Array.from(this.$refs.listbox.children).map(item => item.dataset),
@@ -20,21 +21,23 @@ window.TailwindLiveComponents.listbox = function (e) {
       return null !== this.selectedIndex ? this.items[this.selectedIndex].value : null
     },
     get selectedDisplay() {
-      return null !== this.selectedIndex ? this.items[this.selectedIndex].display : null
+      return null !== this.selectedIndex ? this.items[this.selectedIndex].display : this.prompt
     },
     choose(e) {
       this.selectedIndex = e,
         this.open = false
     },
     onButtonClick() {
-      this.open || (
-        this.activeIndex = this.selectedIndex,
-        this.open = true,
-        this.$nextTick((() => {
-          this.$refs.listbox.focus(),
-            null !== this.activeIndex && this.$refs.listbox.children[this.activeIndex].scrollIntoView({ block: "nearest" })
-        }))
-      )
+      if (this.open) {
+        this.open = false
+      } else {
+        this.activeIndex = (this.selectedIndex || 0),
+          this.open = true,
+          setTimeout(() => {
+            this.$refs.listbox.focus(),
+              null !== this.activeIndex && this.$refs.listbox.children[this.activeIndex].scrollIntoView({ block: "nearest" })
+          }, 100)
+      }
     },
     onOptionSelect() {
       null !== this.activeIndex && (this.selectedIndex = this.activeIndex), this.open = false, this.$refs.button.focus()
@@ -79,8 +82,7 @@ window.TailwindLiveComponents.radioGroup = function (e) {
           }))
 
       window.addEventListener("focus", (() => {
-        console.log("Focus change"),
-          this.options.includes(document.activeElement) || (console.log("HIT"), this.activeIndex = null)
+        this.options.includes(document.activeElement) || (this.activeIndex = null)
       }), true)
     },
     get value() {
