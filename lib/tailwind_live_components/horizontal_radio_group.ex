@@ -1,9 +1,7 @@
 defmodule TailwindLiveComponents.HorizontalRadioGroup do
   use Phoenix.Component
 
-  @moduledoc """
-
-  """
+  alias TailwindLiveComponents.Label
 
   @doc """
   Renders the listbox element
@@ -15,6 +13,7 @@ defmodule TailwindLiveComponents.HorizontalRadioGroup do
     * `label` - The text for the generated `<label>` element
     * `prompt` - An option to include at the top of the options with the given prompt text
     * `options` - The options in the list box
+    * `error` - Optional error message
   """
   def radio_group(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -36,6 +35,7 @@ defmodule TailwindLiveComponents.HorizontalRadioGroup do
       |> assign_new(:selected_index, fn -> selected_index end)
       |> assign_new(:selected_display, fn -> selected_display end)
       |> assign_new(:label_id, fn -> label_id end)
+      |> assign_new(:error, fn -> nil end)
 
     ~H"""
     <div
@@ -48,11 +48,10 @@ defmodule TailwindLiveComponents.HorizontalRadioGroup do
     >
       <%= Phoenix.HTML.Form.hidden_input(@form, @field, id: @input_id, "x-model": "value") %>
 
-      <label id={@label_id} class="block text-md font-medium text-gray-700">
-        <%= @label %>
-      </label>
+      <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+
       <div
-        class={"mt-2 grid grid-cols-1 gap-y-2 #{grid_columns(@options)} sm:gap-x-2"}
+        class={"mt-1 grid grid-cols-1 gap-y-2 #{grid_columns(@options)} sm:gap-x-2"}
         role="none"
         x-ref="radiogroup"
       >

@@ -88,11 +88,8 @@ defmodule TailwindLiveComponents.TextInput do
 
     <div
       x-data={"TailwindLiveComponents.telInput()"}
-      class="relative rounded-md shadow-sm"
+      class="relative mt-1 rounded-md shadow-sm"
     >
-      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <span class="text-gray-500 sm:text-lg">+1</span>
-      </div>
       <%= Phoenix.HTML.Form.hidden_input(
         @form,
         @field,
@@ -101,6 +98,7 @@ defmodule TailwindLiveComponents.TextInput do
         "x-model": "value",
         "x-ref": "valueInput"
       ) %>
+
       <input
         type="text"
         x-model="display"
@@ -109,6 +107,9 @@ defmodule TailwindLiveComponents.TextInput do
         placeholder={@placeholder}
         data-focus="true"
       />
+      <div class="absolute inset-y-0 left-0 pl-3 py-2 flex items-center pointer-events-none">
+        <span class="text-gray-500 sm:text-lg">+1</span>
+      </div>
     </div>
     """
   end
@@ -130,18 +131,17 @@ defmodule TailwindLiveComponents.TextInput do
     ~H"""
     <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
 
-    <div class="mt-1">
-      <div class="relative rounded-md shadow-sm">
-        <%= Phoenix.HTML.Form.date_input(
-          @form,
-          @field,
-          id: @input_id,
-          value: @value,
-          class: input_class(),
-          data: [focus: true]
-        ) %>
-      </div>
+    <div class="relative mt-1 rounded-md shadow-sm">
+      <%= Phoenix.HTML.Form.date_input(
+        @form,
+        @field,
+        id: @input_id,
+        value: @value,
+        class: input_class(),
+        data: [focus: true]
+      ) %>
     </div>
+
     """
   end
 
@@ -161,9 +161,10 @@ defmodule TailwindLiveComponents.TextInput do
 
     ~H"""
     <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+
     <div
-      phx-hook="ZipInputHook"
-      class="relative flex justify-center"
+      x-data={"TailwindLiveComponents.zipInput()"}
+      class="relative mt-1 flex justify-center"
     >
       <%= Phoenix.HTML.Form.text_input(
         @form,
@@ -172,13 +173,16 @@ defmodule TailwindLiveComponents.TextInput do
         value: @value,
         placeholder: @placeholder,
         class: input_class(),
+        "@input.prevent.stop": "onValueChanged",
+        "x-ref": "valueInput",
+        "x-model": "value",
         data: [focus: true]
       ) %>
     </div>
     """
   end
 
-  defp input_class(), do: "bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-sky-900/50 focus:shadow-md "
+  defp input_class(), do: "bg-white relative w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-sky-900/50 focus:shadow-md "
 
   defp load_assigns(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)

@@ -1,16 +1,18 @@
 defmodule TailwindLiveComponents.Listbox do
   use Phoenix.Component
 
-  @moduledoc """
+  alias TailwindLiveComponents.Label
+
+  @doc """
+  Renders the listbox element
+
+  ```
   <.listbox form={:basket} field={:fruit} prompt="Select Fruit" options={[
       %{value: "apple", display: "Apple", detail: "yummy apple"},
       %{value: "banana", display: "Banana", detail: "yummy banana"},
       %{value: "cherry", display: "Cherry", detail: "yummy cherry"}
     ]} />
-  """
-
-  @doc """
-  Renders the listbox element
+  ```
 
   ## Options
 
@@ -19,6 +21,7 @@ defmodule TailwindLiveComponents.Listbox do
     * `label` - The text for the generated `<label>` element
     * `prompt` - An option to include at the top of the options with the given prompt text
     * `options` - The options in the list box
+    * `error` - Optional error message
   """
   def listbox(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -41,6 +44,7 @@ defmodule TailwindLiveComponents.Listbox do
       |> assign_new(:selected_display, fn -> selected_display end)
       |> assign_new(:prompt, fn -> prompt end)
       |> assign_new(:label_id, fn -> label_id end)
+      |> assign_new(:error, fn -> nil end)
 
     ~H"""
     <div
@@ -53,9 +57,8 @@ defmodule TailwindLiveComponents.Listbox do
     >
       <%= Phoenix.HTML.Form.hidden_input(@form, @field, id: @input_id, "x-model": "selectedValue") %>
 
-      <label id={@label_id} class="block text-md font-medium text-gray-700" @click="$refs.button.focus()">
-        <%= @label %>
-      </label>
+      <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+
       <div class="mt-1 relative">
         <div
           class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-sky-900/50 focus:shadow-md "

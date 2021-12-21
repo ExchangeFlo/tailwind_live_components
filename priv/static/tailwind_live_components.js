@@ -1,6 +1,24 @@
 window.TailwindLiveComponents = {}
 
-window.TailwindLiveComponents.telInput = function (e) {
+window.TailwindLiveComponents.zipInput = function () {
+  return {
+    value: null,
+
+    init() {
+      this.value = this.scrubInput(this.$refs.valueInput.value)
+    },
+
+    onValueChanged(event) {
+      this.value = this.scrubInput(event.target.value)
+    },
+
+    scrubInput(input) {
+      return input.replace(/\D/g, '').substring(0, 5).match(/^\d{0,9}$/)
+    }
+  }
+}
+
+window.TailwindLiveComponents.telInput = function () {
   return {
     value: null,
     display: null,
