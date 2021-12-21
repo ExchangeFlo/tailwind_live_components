@@ -92,10 +92,10 @@ defmodule TailwindLiveComponents.HorizontalRadioGroup do
       @keydown.space.prevent={"choose(#{@index})"}
       @keydown.arrow-left.prevent="onArrowUp()"
       @keydown.arrow-right.prevent="onArrowDown()"
-      class="relative flex px-5 py-4 rounded-lg shadow-md cursor-pointer focus:outline-none bg-white border border-gray-300 focus:ring-1 focus:ring-sky-900 focus:border-sky-900"
+      class="relative flex px-5 py-4 rounded-lg shadow-sm cursor-pointer focus:outline-none border focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-md"
       :class={"{
-        'bg-sky-900/75 border-transparent': selectedIndex === #{@index},
-        'bg-white': !(selectedIndex === #{@index})
+        'bg-sky-900/75 focus:shadow-sky-900/50 border-transparent': selectedIndex === #{@index},
+        'bg-white border-gray-300': !(selectedIndex === #{@index})
       }"}
 
     >

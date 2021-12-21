@@ -1,5 +1,44 @@
 window.TailwindLiveComponents = {}
 
+window.TailwindLiveComponents.telInput = function (e) {
+  return {
+    value: null,
+    display: null,
+
+    init() {
+      this.value = this.scrubInput(this.$refs.valueInput.value)
+      this.display = this.formatDisplay(this.value)
+    },
+
+    onValueChanged(event) {
+      this.value = this.scrubInput(event.target.value)
+      this.display = this.formatDisplay(this.value)
+    },
+
+    scrubInput(input) {
+      return (input.replace(/\D/g, '').substring(0, 10).match(/^[2-9]{1}\d{0,9}$/) || [""])[0]
+    },
+
+    formatDisplay(input) {
+      if (input === null) return "";
+
+      const areaCode = input.substring(0, 3);
+      const middle = input.substring(3, 6);
+      const last = input.substring(6, 10);
+
+      if (input.length > 6) {
+        return `(${areaCode}) ${middle}-${last}`
+      } else if (this.value.length > 3) {
+        return `(${areaCode}) ${middle}`
+      } else if (this.value.length > 0) {
+        return `(${areaCode}`
+      }
+
+      return input
+    }
+  }
+}
+
 window.TailwindLiveComponents.listbox = function (e) {
   return {
     items: [],

@@ -57,9 +57,6 @@ defmodule TailwindLiveComponents.Toggle do
       </div>
       <span id={@label_id} class="ml-3">
         <span class="text-md font-medium text-gray-900"><%= @label %></span>
-        <%= if false do %>
-          <span class="text-md text-gray-500"> (Save 10%)</span>
-        <% end %>
       </span>
     </div>
     """
