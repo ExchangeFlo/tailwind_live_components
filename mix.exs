@@ -2,7 +2,7 @@ defmodule TailwindLiveComponents.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/sourceflo/tailwind_live_components"
-  @version "0.1.5"
+  @version "0.1.6"
 
   def project do
     [
@@ -51,6 +51,7 @@ defmodule TailwindLiveComponents.MixProject do
     [
       maintainers: ["Jon Principe"],
       licenses: ["MIT"],
+      files: ~w(lib priv mix.exs package.json README.md),
       links: %{"GitHub" => @source_url}
     ]
   end
