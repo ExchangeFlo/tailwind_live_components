@@ -59,7 +59,6 @@ defmodule TailwindLiveComponents.MixProject do
   defp docs() do
     [
       main: "readme",
-      logo: "logo.png",
       name: "Tailwind Live Components",
       source_ref: "v#{@version}",
       canonical: "http://hexdocs.pm/tailwind_live_components",
