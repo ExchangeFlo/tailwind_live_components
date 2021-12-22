@@ -12,6 +12,7 @@ defmodule TailwindLiveComponents.Label do
     * `error` - Optional error message to display
     * `input_id - Optional value to reference the id of the field input
     * `label_id` - Optional value to use as the DOM id of the label
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def label(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -21,15 +22,16 @@ defmodule TailwindLiveComponents.Label do
       |> assign_new(:input_id, fn -> input_id end)
       |> assign_new(:label_id, fn -> input_id <> "-label" end)
       |> assign_new(:error, fn -> nil end)
+      |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
 
     ~H"""
     <div id={@label_id} class="flex items-baseline space-x-2 pl-1">
       <%= if @label do %>
-        <%= Phoenix.HTML.Form.label(@form, @field, @label, class: "block text-md font-medium text-gray-700 mb-0.5") %>
+        <%= Phoenix.HTML.Form.label(@form, @field, @label, class: "block text-md font-medium #{@theme.text_color} mb-0.5") %>
       <% end %>
 
       <%= if @error do %>
-        <span class="text-red-500 text-sm" phx-feedback-for={@input_id}>
+        <span class={"#{@theme.error_text_color} text-sm"} phx-feedback-for={@input_id}>
           <%= @error %>
         </span>
       <% end %>

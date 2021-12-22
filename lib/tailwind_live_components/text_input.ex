@@ -15,25 +15,36 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
     * `value` - Optional field value
     * `placeholder` - Optional placeholder
     * `error` - Optional error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def text_input(assigns) do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+    <Label.label
+      form={@form}
+      field={@field}
+      theme={@theme}
+      label={@label}
+      input_id={@input_id}
+      label_id={@label_id}
+      error={@error}
+    />
 
     <div class="mt-1">
       <%= Phoenix.HTML.Form.text_input(
         @form,
         @field,
         id: @input_id,
+        autocomplete: @autocomplete,
         value: @value,
         placeholder: @placeholder,
-        class: input_class(),
+        class: input_class(@theme),
         data: [focus: true]
       ) %>
     </div>
@@ -54,26 +65,37 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
     * `value` - Option field value
     * `placeholder` - Optional placeholder
     * `error` - Optional error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def textarea(assigns) do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+    <Label.label
+      form={@form}
+      field={@field}
+      theme={@theme}
+      label={@label}
+      input_id={@input_id}
+      label_id={@label_id}
+      error={@error}
+    />
 
     <div class="mt-1">
       <%= Phoenix.HTML.Form.textarea(
         @form,
         @field,
         id: @input_id,
+        autocomplete: @autocomplete,
         value: @value,
         rows: 3,
         placeholder: @placeholder,
-        class: input_class(),
+        class: input_class(@theme),
         data: [focus: true]
       ) %>
     </div>
@@ -94,16 +116,26 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
     * `value` - Option field value
     * `placeholder` - Optional placeholder
     * `error` - Option error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def tel_input(assigns) do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+    <Label.label
+      form={@form}
+      field={@field}
+      theme={@theme}
+      label={@label}
+      input_id={@input_id}
+      label_id={@label_id}
+      error={@error}
+    />
 
     <div
       x-data={"TailwindLiveComponents.telInput()"}
@@ -122,12 +154,13 @@ defmodule TailwindLiveComponents.TextInput do
         type="text"
         x-model="display"
         @input.prevent.stop="onValueChanged"
-        class={input_class() <> " pl-9"}
+        autocomplete={@autocomplete},
+        class={input_class(@theme) <> " pl-9"}
         placeholder={@placeholder}
         data-focus="true"
       />
       <div class="absolute inset-y-0 left-0 pl-3 py-2 flex items-center pointer-events-none">
-        <span class="text-gray-500 sm:text-lg">+1</span>
+        <span class={"#{@theme.light_text_color} sm:text-lg"}>+1</span>
       </div>
     </div>
 
@@ -143,15 +176,25 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
     * `placeholder` - Optional placeholder
     * `error` - Option error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def date_input(assigns) do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+    <Label.label
+      form={@form}
+      field={@field}
+      theme={@theme}
+      label={@label}
+      input_id={@input_id}
+      label_id={@label_id}
+      error={@error}
+    />
 
     <div class="relative mt-1 rounded-md shadow-sm">
       <%= Phoenix.HTML.Form.date_input(
@@ -159,7 +202,8 @@ defmodule TailwindLiveComponents.TextInput do
         @field,
         id: @input_id,
         value: @value,
-        class: input_class(),
+        autocomplete: @autocomplete,
+        class: input_class(@theme),
         data: [focus: true]
       ) %>
     </div>
@@ -175,16 +219,26 @@ defmodule TailwindLiveComponents.TextInput do
 
     * `form` - The form identifier
     * `field` - The field name
+    * `autocomplete` - Optional autocomplete attribute
     * `label` - The text for the generated `<label>` element
     * `detail` - Optional detail shown below the input
     * `placeholder` - Optional placeholder
     * `error` - Option error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def zip_input(assigns) do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+    <Label.label
+      form={@form}
+      field={@field}
+      theme={@theme}
+      label={@label}
+      input_id={@input_id}
+      label_id={@label_id}
+      error={@error}
+    />
 
     <div
       x-data={"TailwindLiveComponents.zipInput()"}
@@ -196,7 +250,8 @@ defmodule TailwindLiveComponents.TextInput do
         id: @input_id,
         value: @value,
         placeholder: @placeholder,
-        class: input_class(),
+        class: input_class(@theme),
+        autocomplete: @autocomplete,
         "@input.prevent.stop": "onValueChanged",
         "x-ref": "valueInput",
         "x-model": "value",
@@ -212,13 +267,13 @@ defmodule TailwindLiveComponents.TextInput do
 
   defp detail(assigns) do
     ~H"""
-    <span class="text-gray-500 text-sm mt-0.5 pl-1">
+    <span class={"#{@theme.light_text_color} text-sm mt-0.5 pl-1"}>
       <%= @detail %>
     </span>
     """
   end
 
-  defp input_class(), do: "bg-white relative w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-md "
+  defp input_class(theme), do: "#{theme.bg_color} relative w-full border #{theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{theme.focus_ring_color} focus:#{theme.focus_border_color} focus:shadow-md "
 
   defp load_assigns(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -228,8 +283,10 @@ defmodule TailwindLiveComponents.TextInput do
     |> assign_new(:input_id, fn -> input_id end)
     |> assign_new(:label_id, fn -> label_id end)
     |> assign_new(:value, fn -> nil end)
+    |> assign_new(:autocomplete, fn -> "off" end)
     |> assign_new(:placeholder, fn -> nil end)
     |> assign_new(:error, fn -> nil end)
     |> assign_new(:detail, fn -> nil end)
+    |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
   end
 end

@@ -23,6 +23,7 @@ defmodule TailwindLiveComponents.Listbox do
     * `prompt` - An option to include at the top of the options with the given prompt text
     * `options` - The options in the list box
     * `error` - Optional error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def listbox(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -47,6 +48,7 @@ defmodule TailwindLiveComponents.Listbox do
       |> assign_new(:label_id, fn -> label_id end)
       |> assign_new(:error, fn -> nil end)
       |> assign_new(:detail, fn -> nil end)
+      |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
 
     ~H"""
     <div
@@ -59,11 +61,19 @@ defmodule TailwindLiveComponents.Listbox do
     >
       <%= Phoenix.HTML.Form.hidden_input(@form, @field, id: @input_id, "x-model": "selectedValue") %>
 
-      <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+        <Label.label
+          form={@form}
+          field={@field}
+          theme={@theme}
+          label={@label}
+          input_id={@input_id}
+          label_id={@label_id}
+          error={@error}
+        />
 
       <div class="mt-1 relative">
         <div
-          class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-md "
+          class={"#{@theme.bg_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md "}
           x-ref="button"
           tabindex="0"
           @keydown.enter.stop.prevent="onButtonClick()"
@@ -77,7 +87,7 @@ defmodule TailwindLiveComponents.Listbox do
         >
           <span x-text="selectedDisplay" class="block truncate"><%= @selected_display %></span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <Heroicons.Solid.selector class="h-5 w-5 text-gray-400" />
+            <Heroicons.Solid.selector class={"h-5 w-5 #{@theme.lighter_text_color}"} />
           </span>
         </div>
         <div
@@ -85,7 +95,7 @@ defmodule TailwindLiveComponents.Listbox do
           x-transition:leave="transition ease-in duration-100"
           x-transition:leave-start="opacity-100"
           x-transition:leave-end="opacity-0"
-          class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-md"
+          class={"absolute z-10 mt-1 w-full #{@theme.bg_color} shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-md"}
           @click.away="open = false"
           @keydown.enter.stop.prevent="onOptionSelect()"
           @keydown.space.stop.prevent="onOptionSelect()"
@@ -106,6 +116,7 @@ defmodule TailwindLiveComponents.Listbox do
               index={index}
               option_id={"#{@input_id}-option-#{index}"}
               selected={value == @selected_value}
+              theme={@theme}
             />
           <% end %>
         </div>
@@ -142,10 +153,10 @@ defmodule TailwindLiveComponents.Listbox do
       @mouseleave="activeIndex = null"
       data-value={@option.value}
       data-display={@option.display}
-      class={"cursor-default select-none relative py-2 pl-3 pr-9 #{option_classes(@selected, "bg-sky-900/75")}"}
+      class={"cursor-default select-none relative py-2 pl-3 pr-9 #{option_classes(@theme, @selected)}"}
       :class={"{
-        'text-white bg-sky-900/75': activeIndex === #{@index},
-        'text-gray-900': !(activeIndex === #{@index})
+        '#{@theme.selected_text_color} #{@theme.selected_bg_color}': activeIndex === #{@index},
+        '#{@theme.text_color}': !(activeIndex === #{@index})
       }"}
     >
       <div class="flex items-baseline">
@@ -160,10 +171,10 @@ defmodule TailwindLiveComponents.Listbox do
         </span>
         <%= if @detail do %>
           <span
-            class={"#{detail_classes(@selected)} ml-2 truncate text-sm"}
+            class={"#{detail_classes(@theme, @selected)} ml-2 truncate text-sm"}
             :class={"{
-              'text-sky-200': activeIndex === #{@index},
-              'text-gray-500': !(activeIndex === #{@index})
+              '#{@theme.selected_light_text_color}': activeIndex === #{@index},
+              '#{@theme.light_text_color}': !(activeIndex === #{@index})
             }"}
           >
             <%= @detail %>
@@ -173,11 +184,11 @@ defmodule TailwindLiveComponents.Listbox do
 
       <span
         x-show={"selectedIndex === #{@index}"}
-        class={"absolute inset-y-0 right-0 flex items-center pr-4 #{checkbox_classes(@selected, "text-sky-900")}"}
+        class={"absolute inset-y-0 right-0 flex items-center pr-4 #{checkbox_classes(@theme, @selected)}"}
         style={unless @selected, do: "display: none;"}
         :class={"{
-          'text-white': activeIndex === #{@index},
-          'text-sky-900': !(activeIndex === #{@index})
+          '#{@theme.selected_text_color}': activeIndex === #{@index},
+          '#{@theme.selected_highlight_text_color}': !(activeIndex === #{@index})
         }"}
       >
         <Heroicons.Solid.check class="h-5 w-5" />
@@ -190,17 +201,17 @@ defmodule TailwindLiveComponents.Listbox do
 
   defp detail(assigns) do
     ~H"""
-    <span class="text-gray-500 text-sm mt-0.5 pl-1">
+    <span class={"#{@theme.light_text_color} text-sm mt-0.5 pl-1"}>
       <%= @detail %>
     </span>
     """
   end
 
-  defp option_classes(selected, bg_color_class), do: if(selected, do: "text-white #{bg_color_class}", else: "text-gray-900")
+  defp option_classes(theme, selected), do: if(selected, do: "#{theme.selected_text_color} #{theme.selected_bg_color}", else: theme.text_color)
+
+  defp detail_classes(theme, active), do: if(active, do: theme.selected_light_text_color, else: theme.light_text_color)
+
+  defp checkbox_classes(theme, selected), do: if(selected, do: theme.selected_text_color, else: theme.selected_highlight_text_color)
 
   defp text_classes(selected), do: if(selected, do: "font-semibold", else: "font-normal")
-
-  defp detail_classes(active), do: if(active, do: "text-sky-200", else: "text-gray-500")
-
-  defp checkbox_classes(selected, text_color_class), do: if(selected, do: "text-white", else: text_color_class)
 end

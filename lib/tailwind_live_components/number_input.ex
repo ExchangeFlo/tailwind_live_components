@@ -15,6 +15,7 @@ defmodule TailwindLiveComponents.NumberInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
     * `min` - min value for input
     * `max` - max value for input
@@ -22,12 +23,21 @@ defmodule TailwindLiveComponents.NumberInput do
     * `value` - Optional field value
     * `placeholder` - Optional placeholder
     * `error` - Optional error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def number_input(assigns) do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+    <Label.label
+      form={@form}
+      field={@field}
+      theme={@theme}
+      label={@label}
+      input_id={@input_id}
+      label_id={@label_id}
+      error={@error}
+    />
 
     <div class="mt-1">
       <%= Phoenix.HTML.Form.number_input(
@@ -38,8 +48,9 @@ defmodule TailwindLiveComponents.NumberInput do
         max: @max,
         step: @step,
         value: @value,
+        autocomplete: @autocomplete,
         placeholder: @placeholder,
-        class: input_class(),
+        class: "#{@theme.bg_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md ",
         data: [focus: true]
       ) %>
     </div>
@@ -67,6 +78,7 @@ defmodule TailwindLiveComponents.NumberInput do
     * `value` - Optional field value
     * `placeholder` - Optional placeholder
     * `error` - Optional error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def slider(assigns) do
     assigns = load_assigns(assigns)
@@ -77,7 +89,15 @@ defmodule TailwindLiveComponents.NumberInput do
     assigns = assign(assigns, :thumb_position, (value - min) / (max - min) * 96)
 
     ~H"""
-    <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+    <Label.label
+      form={@form}
+      field={@field}
+      theme={@theme}
+      label={@label}
+      input_id={@input_id}
+      label_id={@label_id}
+      error={@error}
+    />
 
     <div class="mt-1">
       <div
@@ -119,22 +139,22 @@ defmodule TailwindLiveComponents.NumberInput do
           ) %>
 
           <div class="relative z-10 h-2">
-            <div class="absolute z-10 left-0 h-3 right-0 bottom-0 top-0 rounded-lg bg-sky-900/75"></div>
+            <div class={"absolute z-10 left-0 h-3 right-0 bottom-0 top-0 rounded-lg #{@theme.selected_bg_color}"}></div>
             <div
               x-ref="bar"
-              class="absolute z-20 top-0 h-3 bottom-0 rounded-lg bg-gray-200"
+              class={"absolute z-20 top-0 h-3 bottom-0 rounded-lg #{@theme.light_bg_color}"}
               style={"left:#{@thumb_position}%; right:0%"}>
             </div>
             <div
               x-ref="thumb"
-              class="absolute z-30 w-7 h-7 border-4 border-sky-900 border-opacity-100 bg-sky-900 rounded-full -mt-2"
-              :class="{'ring-2 ring-offset-2 ring-sky-900 ring-opacity-100': active}"
+              class={"absolute z-30 w-7 h-7 border-4 #{@theme.focus_border_color} border-opacity-100 #{@theme.focus_bg_color} rounded-full -mt-2"}
+              :class={"{'ring-2 ring-offset-2 #{@theme.focus_ring_color} ring-opacity-100': active}"}
               style={"left: #{@thumb_position}%"}
             ></div>
           </div>
         </div>
 
-        <div class="flex items-center justify-between pt-5 space-x-4 text-sm text-gray-700">
+        <div class={"flex items-center justify-between pt-5 space-x-4 text-sm #{@theme.text_color}"}>
           <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@min, precision: 0) %></span>
           <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@max, precision: 0) %></span>
         </div>
@@ -147,13 +167,11 @@ defmodule TailwindLiveComponents.NumberInput do
 
   defp detail(assigns) do
     ~H"""
-    <span class="text-gray-500 text-sm mt-0.5 pl-1">
+    <span class={"#{@theme.light_text_color} text-sm mt-0.5 pl-1"}>
       <%= @detail %>
     </span>
     """
   end
-
-  defp input_class(), do: "bg-white relative w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-md "
 
   defp load_assigns(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -164,11 +182,13 @@ defmodule TailwindLiveComponents.NumberInput do
     |> assign_new(:input_id, fn -> input_id end)
     |> assign_new(:label_id, fn -> label_id end)
     |> assign_new(:value, fn -> default_value end)
+    |> assign_new(:autocomplete, fn -> "off" end)
     |> assign_new(:step, fn -> 1 end)
     |> assign_new(:placeholder, fn -> nil end)
     |> assign_new(:prefix, fn -> nil end)
     |> assign_new(:error, fn -> nil end)
     |> assign_new(:detail, fn -> nil end)
+    |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
   end
 
   defp parse_value(value, default \\ 0)

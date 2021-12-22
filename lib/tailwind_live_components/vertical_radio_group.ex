@@ -22,6 +22,7 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
     * `prompt` - An option to include at the top of the options with the given prompt text
     * `options` - The options in the list box
     * `error` - Optional error message
+    * `theme` - Optional theme to use for Tailwind classes
   """
   def radio_group(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -43,6 +44,7 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
       |> assign_new(:selected_display, fn -> selected_display end)
       |> assign_new(:label_id, fn -> label_id end)
       |> assign_new(:error, fn -> nil end)
+      |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
 
     ~H"""
     <div
@@ -67,6 +69,7 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
             option={option}
             index={index}
             option_id={"#{@input_id}-option-#{index}"}
+            theme={@theme}
           />
         <% end %>
       </div>
@@ -98,10 +101,10 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
       @keydown.space.prevent={"choose(#{@index})"}
       @keydown.arrow-up.prevent="onArrowUp()"
       @keydown.arrow-down.prevent="onArrowDown()"
-      class="relative flex px-5 py-4 rounded-lg shadow-sm cursor-pointer focus:outline-none border focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-md"
+      class={"relative flex px-5 py-4 rounded-lg shadow-sm cursor-pointer focus:outline-none border focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md"}
       :class={"{
-        'bg-sky-900/75 focus:shadow-sky-900/50 border-transparent ': selectedIndex === #{@index},
-        'bg-white border-gray-300': !(selectedIndex === #{@index})
+        '#{@theme.selected_bg_color} focus:#{@theme.selected_shadow_color} #{@theme.selected_border_color}': selectedIndex === #{@index},
+        '#{@theme.bg_color} #{@theme.border_color}': !(selectedIndex === #{@index})
       }"}
 
     >
@@ -112,8 +115,8 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
               id={@label_id}
               class="font-medium"
               :class={"{
-                'text-white': selectedIndex === #{@index},
-                'text-gray-900': !(selectedIndex === #{@index})
+                '#{@theme.selected_text_color}': selectedIndex === #{@index},
+                '#{@theme.text_color}': !(selectedIndex === #{@index})
               }"}
             >
               <%= @display %>
@@ -123,8 +126,8 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
                 id={@description_id}
                 class="inline text-sm"
                 :class={"{
-                  'text-sky-200': selectedIndex === #{@index},
-                  'text-gray-500': !(selectedIndex === #{@index})
+                  '#{@theme.selected_light_text_color}': selectedIndex === #{@index},
+                  '#{@theme.light_text_color}': !(selectedIndex === #{@index})
                 }"}
               >
                 <span><%= @detail %></span>
@@ -134,7 +137,7 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
         </div>
         <div
           x-show={"selectedIndex === #{@index}"}
-          class="flex-shrink-0 text-white"
+          class={"flex-shrink-0 #{@theme.selected_text_color}"}
         >
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="12" fill="#fff" fill-opacity="0.2"></circle>
