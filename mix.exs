@@ -34,7 +34,6 @@ defmodule TailwindLiveComponents.MixProject do
     [
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
       {:jason, "~> 1.0", only: [:dev, :test]},
-      {:heroicons_liveview, "~> 0.4.0"},
       {:number, "~> 1.0"},
       {:phoenix, "~> 1.6"},
       {:phoenix_live_view, "~> 0.17"},
