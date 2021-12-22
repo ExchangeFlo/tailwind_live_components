@@ -23,7 +23,7 @@ defmodule TailwindLiveComponents.Label do
       |> assign_new(:error, fn -> nil end)
 
     ~H"""
-    <div id={@label_id} class="flex items-baseline space-x-2">
+    <div id={@label_id} class="flex items-baseline space-x-2 pl-1">
       <%= if @label do %>
         <%= Phoenix.HTML.Form.label(@form, @field, @label, class: "block text-md font-medium text-gray-700 mb-0.5") %>
       <% end %>

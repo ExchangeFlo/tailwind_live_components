@@ -6,12 +6,17 @@ defmodule TailwindLiveComponents.TextInput do
   @doc """
   Renders the text input
 
+  ```
+  <.text_input form={f} field={:fruit} placeholder="Fruit" label="Fruit" error="test error message" />
+  ```
+
   ## Options
 
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
-    * `value` - Option field value
+    * `detail` - Optional detail shown below the input
+    * `value` - Optional field value
     * `placeholder` - Optional placeholder
     * `error` - Optional error message
   """
@@ -32,17 +37,24 @@ defmodule TailwindLiveComponents.TextInput do
         data: [focus: true]
       ) %>
     </div>
+
+    <.detail {assigns} />
     """
   end
 
   @doc """
   Renders the textarea
 
+  ```
+  <.textarea form={f} field={:fruit} placeholder="Select Fruit" label="Textarea" value="This is a test text area" />
+  ```
+
   ## Options
 
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `detail` - Optional detail shown below the input
     * `value` - Option field value
     * `placeholder` - Optional placeholder
     * `error` - Optional error message
@@ -65,17 +77,24 @@ defmodule TailwindLiveComponents.TextInput do
         data: [focus: true]
       ) %>
     </div>
+
+    <.detail {assigns} />
     """
   end
 
   @doc """
   Renders the tel input with masking
 
+  ```
+  <.tel_input form={f} field={:phone} label="Tel Input" value="555234" />
+  ```
+
   ## Options
 
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `detail` - Optional detail shown below the input
     * `value` - Option field value
     * `placeholder` - Optional placeholder
     * `error` - Option error message
@@ -111,6 +130,8 @@ defmodule TailwindLiveComponents.TextInput do
         <span class="text-gray-500 sm:text-lg">+1</span>
       </div>
     </div>
+
+    <.detail {assigns} />
     """
   end
 
@@ -122,6 +143,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `detail` - Optional detail shown below the input
     * `placeholder` - Optional placeholder
     * `error` - Option error message
   """
@@ -142,6 +164,7 @@ defmodule TailwindLiveComponents.TextInput do
       ) %>
     </div>
 
+    <.detail {assigns} />
     """
   end
 
@@ -153,6 +176,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `detail` - Optional detail shown below the input
     * `placeholder` - Optional placeholder
     * `error` - Option error message
   """
@@ -179,10 +203,22 @@ defmodule TailwindLiveComponents.TextInput do
         data: [focus: true]
       ) %>
     </div>
+
+    <.detail {assigns} />
     """
   end
 
-  defp input_class(), do: "bg-white relative w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-sky-900/50 focus:shadow-md "
+  defp detail(%{detail: nil} = assigns), do: ~H""
+
+  defp detail(assigns) do
+    ~H"""
+    <span class="text-gray-500 text-sm mt-0.5 pl-1">
+      <%= @detail %>
+    </span>
+    """
+  end
+
+  defp input_class(), do: "bg-white relative w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-md "
 
   defp load_assigns(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -194,5 +230,6 @@ defmodule TailwindLiveComponents.TextInput do
     |> assign_new(:value, fn -> nil end)
     |> assign_new(:placeholder, fn -> nil end)
     |> assign_new(:error, fn -> nil end)
+    |> assign_new(:detail, fn -> nil end)
   end
 end

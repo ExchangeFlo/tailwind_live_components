@@ -6,11 +6,16 @@ defmodule TailwindLiveComponents.NumberInput do
   @doc """
   Renders the number input
 
+  ```
+  <.number_input form={f} field={:value} label="Number Input" min="5" max="10" step="2" />
+  ```
+
   ## Options
 
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `detail` - Optional detail shown below the input
     * `min` - min value for input
     * `max` - max value for input
     * `step` - Optional step for input
@@ -38,11 +43,17 @@ defmodule TailwindLiveComponents.NumberInput do
         data: [focus: true]
       ) %>
     </div>
+
+    <.detail {assigns} />
     """
   end
 
   @doc """
   Renders the slider number input
+
+  ```
+  <.slider form={f} field={:value} label="Slider Input" min="10" max="100" step="2" prefix="$" />
+  ```
 
   ## Options
 
@@ -132,7 +143,17 @@ defmodule TailwindLiveComponents.NumberInput do
     """
   end
 
-  defp input_class(), do: "bg-white relative w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-sky-900/50 focus:shadow-md "
+  defp detail(%{detail: nil} = assigns), do: ~H""
+
+  defp detail(assigns) do
+    ~H"""
+    <span class="text-gray-500 text-sm mt-0.5 pl-1">
+      <%= @detail %>
+    </span>
+    """
+  end
+
+  defp input_class(), do: "bg-white relative w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-md "
 
   defp load_assigns(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -147,6 +168,7 @@ defmodule TailwindLiveComponents.NumberInput do
     |> assign_new(:placeholder, fn -> nil end)
     |> assign_new(:prefix, fn -> nil end)
     |> assign_new(:error, fn -> nil end)
+    |> assign_new(:detail, fn -> nil end)
   end
 
   defp parse_value(value, default \\ 0)

@@ -6,6 +6,13 @@ defmodule TailwindLiveComponents.HorizontalRadioGroup do
   @doc """
   Renders the listbox element
 
+  ```
+  <.radio_group form={f} field={:fruit} label="Horizontal Radio Group" options={[
+      %{value: "apple", display: "Apple", detail: "yummy apple"},
+      %{value: "banana", display: "Banana", detail: "yummy banana"},
+      %{value: "cherry", display: "Cherry", detail: "yummy cherry"}
+    ]} />
+
   ## Options
 
     * `form` - The form identifier

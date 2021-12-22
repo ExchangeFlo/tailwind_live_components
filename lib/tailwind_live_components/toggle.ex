@@ -60,7 +60,9 @@ defmodule TailwindLiveComponents.Toggle do
         ></span>
       </div>
 
-      <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+      <span class="ml-3">
+        <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+      </span>
     </div>
     """
   end

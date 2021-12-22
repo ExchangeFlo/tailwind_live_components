@@ -4,7 +4,15 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
   alias TailwindLiveComponents.Label
 
   @doc """
-  Renders the listbox element
+  Renders the vertical radio group element
+
+  ```
+  <.radio_group form={f} field={:fruit} label="Horizontal Radio Group" options={[
+    %{value: "apple", display: "Apple", detail: "yummy apple"},
+    %{value: "banana", display: "Banana", detail: "yummy banana"},
+    %{value: "cherry", display: "Cherry", detail: "yummy cherry"}
+  ]} />
+  ```
 
   ## Options
 

@@ -19,6 +19,7 @@ defmodule TailwindLiveComponents.Listbox do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `detail` - Optional detail shown below the input
     * `prompt` - An option to include at the top of the options with the given prompt text
     * `options` - The options in the list box
     * `error` - Optional error message
@@ -45,6 +46,7 @@ defmodule TailwindLiveComponents.Listbox do
       |> assign_new(:prompt, fn -> prompt end)
       |> assign_new(:label_id, fn -> label_id end)
       |> assign_new(:error, fn -> nil end)
+      |> assign_new(:detail, fn -> nil end)
 
     ~H"""
     <div
@@ -61,7 +63,7 @@ defmodule TailwindLiveComponents.Listbox do
 
       <div class="mt-1 relative">
         <div
-          class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-sky-900/50 focus:shadow-md "
+          class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:ring-sky-900 focus:border-sky-900 focus:shadow-md "
           x-ref="button"
           tabindex="0"
           @keydown.enter.stop.prevent="onButtonClick()"
@@ -109,6 +111,8 @@ defmodule TailwindLiveComponents.Listbox do
         </div>
       </div>
     </div>
+
+    <.detail {assigns} />
     """
   end
 
@@ -182,12 +186,21 @@ defmodule TailwindLiveComponents.Listbox do
     """
   end
 
-  defp option_classes(selected, bg_color_class),
-    do: if(selected, do: "text-white #{bg_color_class}", else: "text-gray-900")
+  defp detail(%{detail: nil} = assigns), do: ~H""
+
+  defp detail(assigns) do
+    ~H"""
+    <span class="text-gray-500 text-sm mt-0.5 pl-1">
+      <%= @detail %>
+    </span>
+    """
+  end
+
+  defp option_classes(selected, bg_color_class), do: if(selected, do: "text-white #{bg_color_class}", else: "text-gray-900")
 
   defp text_classes(selected), do: if(selected, do: "font-semibold", else: "font-normal")
-  defp detail_classes(active), do: if(active, do: "text-indigo-200", else: "text-gray-500")
 
-  defp checkbox_classes(selected, text_color_class),
-    do: if(selected, do: "text-white", else: text_color_class)
+  defp detail_classes(active), do: if(active, do: "text-sky-200", else: "text-gray-500")
+
+  defp checkbox_classes(selected, text_color_class), do: if(selected, do: "text-white", else: text_color_class)
 end
