@@ -24,18 +24,20 @@ defmodule TailwindLiveComponents.NumberInput do
     ~H"""
     <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
 
-    <%= Phoenix.HTML.Form.number_input(
-      @form,
-      @field,
-      id: @input_id,
-      min: @min,
-      max: @max,
-      step: @step,
-      value: @value,
-      placeholder: @placeholder,
-      class: input_class(),
-      data: [focus: true]
-    ) %>
+    <div class="mt-1">
+      <%= Phoenix.HTML.Form.number_input(
+        @form,
+        @field,
+        id: @input_id,
+        min: @min,
+        max: @max,
+        step: @step,
+        value: @value,
+        placeholder: @placeholder,
+        class: input_class(),
+        data: [focus: true]
+      ) %>
+    </div>
     """
   end
 
@@ -79,7 +81,7 @@ defmodule TailwindLiveComponents.NumberInput do
       >
         <div class="flex justify-center items-center">
           <div
-            x-ref="display"
+            x-text="display"
             class="mb-8 font-semibold text-2xl"
           >
             <%= @prefix %><%= Number.Delimit.number_to_delimited(@value, precision: 0) %>
@@ -93,9 +95,14 @@ defmodule TailwindLiveComponents.NumberInput do
             max: @max,
             step: @step,
             value: @value,
+            role: "slider",
             "@input": "valueChanged",
             "@focus": "active = true",
             "@blur": "active = false",
+            "aria-valuemin": @min,
+            "aria-valuemax": @max,
+            ":aria-valuenow": "value",
+            ":aria-valuetext": "display",
             class: "absolute appearance-none z-20 left-2 h-7 w-full opacity-0 cursor-pointer",
             data: [focus: true]
           ) %>

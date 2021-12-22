@@ -184,14 +184,15 @@ window.TailwindLiveComponents.slider = function (e) {
     },
 
     valueChanged(event) {
+      this.value = event.target.value
       this.active = true
       event.target.focus()
-      this.formatDisplay(event.target.value)
+      this.formatDisplay(this.value)
     },
 
     formatDisplay(value) {
       this.thumb = ((value - this.min) / (this.max - this.min)) * 96
-      this.$refs.display.innerText = this.prefix + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      this.display = this.prefix + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
       this.$refs.bar.style = `left:${this.thumb}%; right:0%`
       this.$refs.thumb.style = `left:${this.thumb}%`
     }
