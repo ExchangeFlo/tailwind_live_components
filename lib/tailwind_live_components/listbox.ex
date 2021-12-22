@@ -127,17 +127,7 @@ defmodule TailwindLiveComponents.Listbox do
     """
   end
 
-  @doc """
-  Renders the listbox element
-
-  ## Options
-
-    * `option` - The value field for the option
-    * `index` - The index position in the option list
-    * `selected` - Boolean indicating whether this option is selected
-    * `option_id` - The DOM id to use for this option
-  """
-  def listbox_option(assigns) do
+  defp listbox_option(assigns) do
     assigns =
       assigns
       |> assign_new(:value, fn -> Map.get(assigns.option, :value) end)

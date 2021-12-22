@@ -77,7 +77,7 @@ defmodule TailwindLiveComponents.VerticalRadioGroup do
     """
   end
 
-  def radio(assigns) do
+  defp radio(assigns) do
     assigns =
       assigns
       |> assign_new(:label_id, fn -> assigns.option_id <> "-label" end)
