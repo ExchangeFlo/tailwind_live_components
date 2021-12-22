@@ -15,6 +15,7 @@ defmodule TailwindLiveComponents.Toggle do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `detail` - Optional detail shown below the input
     * `error` - Optional error message
   """
   def toggle(assigns) do
@@ -60,8 +61,14 @@ defmodule TailwindLiveComponents.Toggle do
         ></span>
       </div>
 
-      <span class="ml-3">
+      <span class="ml-3 flex flex-col">
         <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
+
+        <%= if @detail do %>
+          <span class="text-gray-500 text-sm pl-1">
+            <%= @detail %>
+          </span>
+        <% end %>
       </span>
     </div>
     """
