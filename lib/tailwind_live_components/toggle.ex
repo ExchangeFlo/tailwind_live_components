@@ -15,6 +15,7 @@ defmodule TailwindLiveComponents.Toggle do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `value` - The current value for the input
     * `detail` - Optional detail shown below the input
     * `error` - Optional error message
     * `theme` - Optional theme to use for Tailwind classes
@@ -22,7 +23,7 @@ defmodule TailwindLiveComponents.Toggle do
   def toggle(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
     label_id = input_id <> "-label"
-    selected_value = Phoenix.HTML.Form.input_value(assigns.form, assigns.field)
+    selected_value = Map.get(assigns, :value, nil)
 
     assigns =
       assigns

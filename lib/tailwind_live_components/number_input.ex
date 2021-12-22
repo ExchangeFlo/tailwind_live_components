@@ -15,6 +15,7 @@ defmodule TailwindLiveComponents.NumberInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
     * `min` - min value for input
@@ -176,12 +177,12 @@ defmodule TailwindLiveComponents.NumberInput do
   defp load_assigns(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
     label_id = input_id <> "-label"
-    default_value = parse_value(Map.get(assigns, :value) || Map.get(assigns, :min))
+    value = parse_value(Map.get(assigns, :value) || Map.get(assigns, :min))
 
     assigns
     |> assign_new(:input_id, fn -> input_id end)
     |> assign_new(:label_id, fn -> label_id end)
-    |> assign_new(:value, fn -> default_value end)
+    |> assign_new(:value, fn -> value end)
     |> assign_new(:autocomplete, fn -> "off" end)
     |> assign_new(:step, fn -> 1 end)
     |> assign_new(:placeholder, fn -> nil end)

@@ -15,9 +15,9 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
-    * `value` - Optional field value
     * `placeholder` - Optional placeholder
     * `error` - Optional error message
     * `theme` - Optional theme to use for Tailwind classes
@@ -65,9 +65,9 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
-    * `value` - Option field value
     * `placeholder` - Optional placeholder
     * `error` - Optional error message
     * `theme` - Optional theme to use for Tailwind classes
@@ -116,9 +116,9 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
-    * `value` - Option field value
     * `placeholder` - Optional placeholder
     * `error` - Option error message
     * `theme` - Optional theme to use for Tailwind classes
@@ -176,6 +176,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
     * `placeholder` - Optional placeholder
@@ -219,6 +220,7 @@ defmodule TailwindLiveComponents.TextInput do
 
     * `form` - The form identifier
     * `field` - The field name
+    * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `label` - The text for the generated `<label>` element
     * `detail` - Optional detail shown below the input
