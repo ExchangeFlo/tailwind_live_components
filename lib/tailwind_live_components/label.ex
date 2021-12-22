@@ -10,7 +10,7 @@ defmodule TailwindLiveComponents.Label do
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
     * `error` - Optional error message to display
-    * `input_id - Optional value to reference the id of the field input
+    * `input_id` - Optional value to reference the id of the field input
     * `label_id` - Optional value to use as the DOM id of the label
     * `theme` - Optional theme to use for Tailwind classes
   """
