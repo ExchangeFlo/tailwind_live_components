@@ -168,3 +168,32 @@ window.TailwindLiveComponents.radioGroup = function (e) {
     }
   }
 }
+
+window.TailwindLiveComponents.slider = function (e) {
+  return {
+    active: false,
+    display: '',
+    value: e.value,
+    prefix: e.prefix,
+    min: e.min,
+    max: e.max,
+    thumbPosition: e.thumb,
+
+    init() {
+      this.formatDisplay(this.value)
+    },
+
+    valueChanged(event) {
+      this.active = true
+      event.target.focus()
+      this.formatDisplay(event.target.value)
+    },
+
+    formatDisplay(value) {
+      this.thumb = ((value - this.min) / (this.max - this.min)) * 96
+      this.$refs.display.innerText = this.prefix + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      this.$refs.bar.style = `left:${this.thumb}%; right:0%`
+      this.$refs.thumb.style = `left:${this.thumb}%`
+    }
+  }
+}
