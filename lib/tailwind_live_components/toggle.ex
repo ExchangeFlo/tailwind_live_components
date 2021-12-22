@@ -1,18 +1,21 @@
 defmodule TailwindLiveComponents.Toggle do
   use Phoenix.Component
 
-  @moduledoc """
-  <.toggle form={:basket} field={:fruit} label="Fruit" />
-  """
+  alias TailwindLiveComponents.Label
 
   @doc """
   Renders the toggle
+
+  ```
+  <.toggle form={:basket} field={:fruit} label="Fruit" />
+  ```
 
   ## Options
 
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `error` - Optional error message
   """
   def toggle(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
@@ -24,6 +27,7 @@ defmodule TailwindLiveComponents.Toggle do
       |> assign_new(:input_id, fn -> input_id end)
       |> assign_new(:label_id, fn -> label_id end)
       |> assign_new(:selected_value, fn -> selected_value end)
+      |> assign_new(:error, fn -> nil end)
 
     ~H"""
     <div
@@ -55,9 +59,8 @@ defmodule TailwindLiveComponents.Toggle do
           }"
         ></span>
       </div>
-      <span id={@label_id} class="ml-3">
-        <span class="text-md font-medium text-gray-900"><%= @label %></span>
-      </span>
+
+      <Label.label form={@form} field={@field} label={@label} input_id={@input_id} label_id={@label_id} error={@error} />
     </div>
     """
   end
