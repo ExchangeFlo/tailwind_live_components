@@ -73,7 +73,7 @@ defmodule TailwindLiveComponents.Listbox do
 
       <div class="mt-1 relative">
         <div
-          class={"#{@theme.bg_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md "}
+          class={"#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md "}
           x-ref="button"
           tabindex="0"
           @keydown.enter.stop.prevent="onButtonClick()"

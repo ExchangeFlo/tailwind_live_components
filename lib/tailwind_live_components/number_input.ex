@@ -51,7 +51,7 @@ defmodule TailwindLiveComponents.NumberInput do
         value: @value,
         autocomplete: @autocomplete,
         placeholder: @placeholder,
-        class: "#{@theme.bg_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md ",
+        class: "#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md ",
         data: [focus: true]
       ) %>
     </div>

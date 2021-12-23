@@ -2,7 +2,7 @@ defmodule TailwindLiveComponents.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/sourceflo/tailwind_live_components"
-  @version "0.1.6"
+  @version "0.1.9"
 
   def project do
     [
@@ -36,8 +36,7 @@ defmodule TailwindLiveComponents.MixProject do
       {:jason, "~> 1.0", only: [:dev, :test]},
       {:number, "~> 1.0"},
       {:phoenix, "~> 1.6"},
-      {:phoenix_live_view, "~> 0.17"},
-      {:phoenix_ecto, "~> 4.4", only: :test}
+      {:phoenix_live_view, "~> 0.17"}
     ]
   end
 
