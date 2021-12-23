@@ -51,7 +51,7 @@ defmodule TailwindLiveComponents.NumberInput do
         value: @value,
         autocomplete: @autocomplete,
         placeholder: @placeholder,
-        class: "#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md ",
+        class: "#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md ",
         data: [focus: true]
       ) %>
     </div>
@@ -148,8 +148,8 @@ defmodule TailwindLiveComponents.NumberInput do
             </div>
             <div
               x-ref="thumb"
-              class={"absolute z-30 w-7 h-7 border-4 #{@theme.focus_border_color} border-opacity-100 #{@theme.focus_bg_color} rounded-full -mt-2"}
-              :class={"{'ring-2 ring-offset-2 #{@theme.focus_ring_color} ring-opacity-100': active}"}
+              class={"absolute z-30 w-7 h-7 border-4 #{@theme.selected_dark_border_color} border-opacity-100 #{@theme.selected_dark_bg_color} rounded-full -mt-2"}
+              :class={"{'ring-2 ring-offset-2 #{@theme.selected_ring_color} ring-opacity-100': active}"}
               style={"left: #{@thumb_position}%"}
             ></div>
           </div>

@@ -276,7 +276,7 @@ defmodule TailwindLiveComponents.TextInput do
   end
 
   defp input_class(theme),
-    do: "#{theme.bg_color} #{theme.text_color} relative w-full border #{theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 focus:#{theme.focus_ring_color} focus:#{theme.focus_border_color} focus:shadow-md"
+    do: "#{theme.bg_color} #{theme.text_color} relative w-full border #{theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 #{theme.focus_ring_color} #{theme.focus_border_color} focus:shadow-md"
 
   defp load_assigns(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)

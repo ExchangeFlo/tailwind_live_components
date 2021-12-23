@@ -44,7 +44,7 @@ defmodule TailwindLiveComponents.Toggle do
         @click="on = !on"
         @keydown.enter.prevent="on = !on"
         @keydown.space.prevent="on = !on"
-        class={"#{background(@theme, @selected_value)} relative inline-flex flex-shrink-0 h-8 w-14 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:#{@theme.focus_ring_color}"}
+        class={"#{background(@theme, @selected_value)} relative inline-flex flex-shrink-0 h-8 w-14 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 #{@theme.focus_ring_color}"}
         :class={"{
           '#{@theme.selected_bg_color}': on,
           '#{@theme.light_bg_color}': !(on)

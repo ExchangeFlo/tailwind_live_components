@@ -115,9 +115,9 @@ defmodule TailwindLiveComponents.RadioGroup do
       @keydown.space.prevent={"choose(#{@index})"}
       @keydown.arrow-up.prevent="onArrowUp()"
       @keydown.arrow-down.prevent="onArrowDown()"
-      class={"relative flex px-5 py-4 rounded-lg shadow-sm cursor-pointer focus:outline-none border focus:ring-1 focus:#{@theme.focus_ring_color} focus:#{@theme.focus_border_color} focus:shadow-md"}
+      class={"relative flex px-5 py-4 rounded-lg shadow-sm cursor-pointer focus:outline-none border focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md"}
       :class={"{
-        '#{@theme.selected_bg_color} focus:#{@theme.selected_shadow_color} #{@theme.selected_border_color}': selectedIndex === #{@index},
+        '#{@theme.selected_bg_color} #{@theme.focus_selected_shadow_color} #{@theme.selected_border_color}': selectedIndex === #{@index},
         '#{@theme.bg_color} #{@theme.border_color}': !(selectedIndex === #{@index})
       }"}
 
@@ -240,9 +240,9 @@ defmodule TailwindLiveComponents.RadioGroup do
       @keydown.space.prevent={"choose(#{@index})"}
       @keydown.arrow-left.prevent="onArrowUp()"
       @keydown.arrow-right.prevent="onArrowDown()"
-      class={"relative flex px-5 py-4 rounded-lg shadow-sm cursor-pointer focus:outline-none border focus:ring-1 focus:#{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md"}
+      class={"relative flex px-5 py-4 rounded-lg shadow-sm cursor-pointer focus:outline-none border focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md"}
       :class={"{
-        '#{@theme.selected_bg_color} focus:#{@theme.selected_shadow_color} #{@theme.selected_border_color}': selectedIndex === #{@index},
+        '#{@theme.selected_bg_color} #{@theme.focus_selected_shadow_color} #{@theme.selected_border_color}': selectedIndex === #{@index},
         '#{@theme.bg_color} #{@theme.border_color}': !(selectedIndex === #{@index})
       }"}
 
