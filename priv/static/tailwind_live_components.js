@@ -78,7 +78,7 @@ window.TailwindLiveComponents.listbox = function (e) {
       return null !== this.selectedIndex ? this.items[this.selectedIndex].value : null
     },
     get selectedDisplay() {
-      return null !== this.selectedIndex ? this.items[this.selectedIndex].display : this.prompt
+      return null !== this.selectedIndex ? this.items[this.selectedIndex].display : (this.prompt || '\xa0')
     },
     choose(e) {
       this.selectedIndex = e,

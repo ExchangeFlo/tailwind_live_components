@@ -55,7 +55,7 @@ defmodule TailwindLiveComponents.Listbox do
       x-data={"TailwindLiveComponents.listbox({
         selectedIndex: #{@selected_index || "null"},
         activeIndex: #{@selected_index || "null"},
-        prompt: '#{@prompt}',
+        prompt: #{if @prompt, do: "'#{@prompt}'", else: "null"},
       })"}
       x-init="init()"
     >
