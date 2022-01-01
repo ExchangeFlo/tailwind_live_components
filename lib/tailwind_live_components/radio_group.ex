@@ -53,6 +53,7 @@ defmodule TailwindLiveComponents.RadioGroup do
         @form,
         @field,
         id: @input_id,
+        value: @value,
         "tlc-ref": "valueInput"
       ) %>
 
