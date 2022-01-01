@@ -1,6 +1,7 @@
 defmodule TailwindLiveComponents.NumberInput do
   use Phoenix.Component
 
+  alias Phoenix.LiveView.JS
   alias TailwindLiveComponents.Label
 
   @doc """
@@ -100,65 +101,58 @@ defmodule TailwindLiveComponents.NumberInput do
       error={@error}
     />
 
-    <div class="mt-1">
-      <div
-        x-data={"TailwindLiveComponents.slider({
-          prefix: '#{@prefix}',
-          min: #{@min},
-          max: #{@max},
-          value: #{@value},
-          thumb: #{@thumb_position}
-        })"}
-        class="relative w-full"
-      >
-        <div class="flex justify-center items-center">
-          <div
-            x-text="display"
-            class="mb-8 font-semibold text-2xl"
-          >
-            <%= @prefix %><%= Number.Delimit.number_to_delimited(@value, precision: 0) %>
-          </div>
+    <div
+      id={@input_id <> "-container"}
+      phx-hook="tlcSlider"
+      class="relative w-full mt-1"
+    >
+      <div class="flex justify-center items-center">
+        <div class="mb-8 font-semibold text-2xl">
+          <%= if @prefix do %>
+            <span><%= @prefix %></span>
+          <% end %>
+          <span tlc-ref="display">
+            <%= Number.Delimit.number_to_delimited(@value, precision: 0) %>
+          </span>
         </div>
-        <div class="group">
-          <%= Phoenix.HTML.Form.range_input(
-            @form,
-            @field,
-            min: @min,
-            max: @max,
-            step: @step,
-            value: @value,
-            role: "slider",
-            "@input": "valueChanged",
-            "@focus": "active = true",
-            "@blur": "active = false",
-            "aria-valuemin": @min,
-            "aria-valuemax": @max,
-            ":aria-valuenow": "value",
-            ":aria-valuetext": "display",
-            class: "absolute appearance-none z-20 left-2 h-7 w-full opacity-0 cursor-pointer",
-            data: [focus: true]
-          ) %>
+      </div>
+      <%= Phoenix.HTML.Form.range_input(
+        @form,
+        @field,
+        id: @input_id,
+        min: @min,
+        max: @max,
+        step: @step,
+        value: @value,
+        role: "slider",
+        "tlc-ref": "valueInput",
+        "aria-valuemin": @min,
+        "aria-valuemax": @max,
+        "aria-valuenow": @value,
+        tabindex: "0",
+        class: "absolute appearance-none z-20 left-2 h-7 w-full opacity-0 cursor-pointer",
+        data: [focus: true]
+      ) %>
 
-          <div class="relative z-10 h-2">
-            <div class={"absolute z-10 left-0 h-3 right-0 bottom-0 top-0 rounded-lg #{@theme.selected_bg_color}"}></div>
-            <div
-              x-ref="bar"
-              class={"absolute z-20 top-0 h-3 bottom-0 rounded-lg #{@theme.light_bg_color}"}
-              style={"left:#{@thumb_position}%; right:0%"}>
-            </div>
-            <div
-              x-ref="thumb"
-              class={"absolute z-30 w-7 h-7 border-4 #{@theme.selected_dark_border_color} border-opacity-100 #{@theme.selected_dark_bg_color} rounded-full -mt-2"}
-              :class={"{'ring-2 ring-offset-2 #{@theme.selected_ring_color} ring-opacity-100': active}"}
-              style={"left: #{@thumb_position}%"}
-            ></div>
-          </div>
+      <div for={@input_id} class="relative z-10 h-2">
+        <div class={"absolute z-10 left-0 h-3 right-0 bottom-0 top-0 rounded-lg #{@theme.selected_bg_color}"}></div>
+        <div
+          tlc-ref="bar"
+          class={"absolute z-20 top-0 h-3 bottom-0 rounded-lg #{@theme.light_bg_color}"}
+          style={"left:#{@thumb_position}%; right:0%"}>
         </div>
+        <div
+          tlc-ref="thumb"
+          class={"absolute z-30 w-7 h-7 border-4 #{@theme.selected_dark_border_color} border-opacity-100 #{@theme.selected_dark_bg_color} rounded-full -mt-2"}
+          data-active={active_thumb(@theme)}
+          data-inactive={inactive_thumb(@theme)}
+          style={"left: #{@thumb_position}%"}
+        ></div>
+      </div>
 
-        <div class={"flex items-center justify-between pt-5 space-x-4 text-sm #{@theme.text_color}"}>
-          <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@min, precision: 0) %></span>
-          <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@max, precision: 0) %></span>
-        </div>
+      <div class={"flex items-center justify-between pt-5 space-x-4 text-md #{@theme.text_color}"}>
+        <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@min, precision: 0) %></span>
+        <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@max, precision: 0) %></span>
       </div>
     </div>
     """
@@ -190,6 +184,14 @@ defmodule TailwindLiveComponents.NumberInput do
     |> assign_new(:error, fn -> nil end)
     |> assign_new(:detail, fn -> nil end)
     |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
+  end
+
+  defp active_thumb(js \\ %JS{}, theme) do
+    JS.add_class(js, "ring-2 ring-offset-2 #{theme.selected_ring_color} ring-opacity-100")
+  end
+
+  defp inactive_thumb(js \\ %JS{}, theme) do
+    JS.remove_class(js, "ring-2 ring-offset-2 #{theme.selected_ring_color} ring-opacity-100")
   end
 
   defp parse_value(value, default \\ 0)

@@ -1,6 +1,7 @@
 defmodule TailwindLiveComponents.Toggle do
   use Phoenix.Component
 
+  alias Phoenix.LiveView.JS
   alias TailwindLiveComponents.Label
 
   @doc """
@@ -23,44 +24,44 @@ defmodule TailwindLiveComponents.Toggle do
   def toggle(assigns) do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
     label_id = input_id <> "-label"
-    selected_value = Map.get(assigns, :value, nil)
 
     assigns =
       assigns
       |> assign_new(:input_id, fn -> input_id end)
       |> assign_new(:label_id, fn -> label_id end)
-      |> assign_new(:selected_value, fn -> selected_value end)
+      |> assign_new(:value, fn -> "false" end)
       |> assign_new(:error, fn -> nil end)
       |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
 
     ~H"""
     <div
-      x-data={"{ on: #{@selected_value == "true"} }"}
+      id={@input_id <> "-container"}
+      phx-hook="tlcToggle"
       class="flex items-center"
     >
-      <%= Phoenix.HTML.Form.hidden_input(@form, @field, id: @input_id, "x-model": "on") %>
+      <%= Phoenix.HTML.Form.hidden_input(
+        @form,
+        @field,
+        id: @input_id,
+        value: @value,
+        "tlc-ref": "valueInput"
+      ) %>
 
       <div
-        @click="on = !on"
-        @keydown.enter.prevent="on = !on"
-        @keydown.space.prevent="on = !on"
-        class={"#{background(@theme, @selected_value)} relative inline-flex flex-shrink-0 h-8 w-14 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 #{@theme.focus_ring_color}"}
-        :class={"{
-          '#{@theme.selected_bg_color}': on,
-          '#{@theme.light_bg_color}': !(on)
-        }"}
+        class={"#{background(@theme, @value)} relative inline-flex flex-shrink-0 h-8 w-14 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 #{@theme.focus_ring_color}"}
+        data-toggle-on={toggle_background_on(@theme)}
+        data-toggle-off={toggle_background_off(@theme)}
         role="switch"
         tabindex="0"
-        :aria-checked="on.toString()"
+        aria-checked={@value}
         aria-labelledby={@label_id}
+        tlc-ref="toggleInput"
       >
         <span
           aria-hidden="true"
-          class={"#{position(@selected_value)} pointer-events-none inline-block h-7 w-7 rounded-full #{@theme.bg_color} shadow transform ring-0 transition ease-in-out duration-200"}
-          :class="{
-            'translate-x-6': on,
-            'translate-x-0': !(on)
-          }"
+          class={"#{position(@value)} pointer-events-none inline-block h-7 w-7 rounded-full #{@theme.bg_color} shadow transform ring-0 transition ease-in-out duration-200"}
+          data-toggle-on={toggle_position_on()}
+          data-toggle-off={toggle_position_off()}
         ></span>
       </div>
 
@@ -90,4 +91,28 @@ defmodule TailwindLiveComponents.Toggle do
 
   defp position("true"), do: "translate-x-6"
   defp position(_), do: "translate-x-0"
+
+  defp toggle_background_on(js \\ %JS{}, theme) do
+    js
+    |> JS.remove_class(theme.light_bg_color)
+    |> JS.add_class(theme.selected_bg_color)
+  end
+
+  defp toggle_background_off(js \\ %JS{}, theme) do
+    js
+    |> JS.remove_class(theme.selected_bg_color)
+    |> JS.add_class(theme.light_bg_color)
+  end
+
+  defp toggle_position_on(js \\ %JS{}) do
+    js
+    |> JS.remove_class("translate-x-0")
+    |> JS.add_class("translate-x-6")
+  end
+
+  defp toggle_position_off(js \\ %JS{}) do
+    js
+    |> JS.remove_class("translate-x-6")
+    |> JS.add_class("translate-x-0")
+  end
 end

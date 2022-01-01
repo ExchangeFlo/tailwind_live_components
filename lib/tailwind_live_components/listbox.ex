@@ -1,6 +1,7 @@
 defmodule TailwindLiveComponents.Listbox do
   use Phoenix.Component
 
+  alias Phoenix.LiveView.JS
   alias TailwindLiveComponents.Label
 
   @doc """
@@ -30,7 +31,7 @@ defmodule TailwindLiveComponents.Listbox do
     input_id = Phoenix.HTML.Form.input_id(assigns.form, assigns.field)
     label_id = input_id <> "-label"
 
-    prompt = Map.get(assigns, :prompt, Phoenix.HTML.raw("&nbsp;"))
+    prompt = Map.get(assigns, :prompt)
     options = Map.get(assigns, :options, [])
 
     value = Map.get(assigns, :value, nil)
@@ -52,40 +53,36 @@ defmodule TailwindLiveComponents.Listbox do
 
     ~H"""
     <div
-      x-data={"TailwindLiveComponents.listbox({
-        selectedIndex: #{@selected_index || "null"},
-        activeIndex: #{@selected_index || "null"},
-        prompt: #{if @prompt, do: "'#{@prompt}'", else: "null"},
-      })"}
-      x-init="init()"
+      id={@input_id <> "-container"}
+      phx-hook="tlcListbox"
     >
-      <%= Phoenix.HTML.Form.hidden_input(@form, @field, id: @input_id, "x-model": "selectedValue") %>
+      <%= Phoenix.HTML.Form.hidden_input(
+        @form,
+        @field,
+        id: @input_id,
+        "tlc-ref": "valueInput"
+      ) %>
 
-        <Label.label
-          form={@form}
-          field={@field}
-          theme={@theme}
-          label={@label}
-          input_id={@input_id}
-          label_id={@label_id}
-          error={@error}
-        />
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
+      />
 
       <div class="mt-1 relative">
         <div
-          class={"#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md "}
-          x-ref="button"
+          tlc-ref="button"
           tabindex="0"
-          @keydown.enter.stop.prevent="onButtonClick()"
-          @keydown.space.stop.prevent="onButtonClick()"
-          @keydown.arrow-up.stop.prevent="onButtonClick()"
-          @keydown.arrow-down.stop.prevent="onButtonClick()"
-          @click="onButtonClick()"
           aria-haspopup="listbox"
-          :aria-expanded="open"
+          aria-expanded="false"
           aria-labelledby={@label_id}
+          class={"#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm pl-3 pr-10 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md "}
         >
-          <span x-text="selectedDisplay" class="block truncate"><%= @selected_display %></span>
+          <span tlc-ref="selectedText" class="block truncate"><%= @selected_display %></span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <svg xmlns="http://www.w3.org/2000/svg" class={"h-5 w-5 #{@theme.lighter_text_color}"} viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -93,24 +90,15 @@ defmodule TailwindLiveComponents.Listbox do
           </span>
         </div>
         <div
-          x-show="open"
-          x-transition:leave="transition ease-in duration-100"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          class={"absolute z-10 mt-1 w-full #{@theme.bg_color} shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-md"}
-          @click.away="open = false"
-          @keydown.enter.stop.prevent="onOptionSelect()"
-          @keydown.space.stop.prevent="onOptionSelect()"
-          @keydown.escape="onEscape()"
-          @keydown.arrow-up.prevent="onArrowUp()"
-          @keydown.arrow-down.prevent="onArrowDown()"
-          @keydown.tab="onEscape()"
-          x-ref="listbox"
+          data-listbox-open={listbox_open()}
+          data-listbox-close={listbox_close()}
+          tlc-ref="listbox"
           tabindex="-1"
           role="listbox"
           aria-labelledby={@label_id}
-          :aria-activedescendant="activeDescendant"
+          aria-activedescendant=""
           style="display: none;"
+          class={"absolute z-10 mt-1 w-full #{@theme.bg_color} shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-md transition"}
         >
           <%= for {%{value: value} = option, index} <- Enum.with_index(@options) do %>
             <.listbox_option
@@ -140,34 +128,25 @@ defmodule TailwindLiveComponents.Listbox do
     <div
       id={@option_id}
       role="option"
-      @click={"choose(#{@index})"}
-      @mouseenter={"activeIndex = #{@index}"}
-      @mouseleave="activeIndex = null"
       data-value={@option.value}
       data-display={@option.display}
       class={"cursor-default select-none relative py-2 pl-3 pr-9 #{option_classes(@theme, @selected)}"}
-      :class={"{
-        '#{@theme.selected_text_color} #{@theme.selected_bg_color}': activeIndex === #{@index},
-        '#{@theme.text_color}': !(activeIndex === #{@index})
-      }"}
+      data-listbox-option-active={listbox_option_background_active(@theme)}
+      data-listbox-option-inactive={listbox_option_background_inactive(@theme)}
     >
       <div class="flex items-baseline">
         <span
           class={"#{text_classes(@selected)} block truncate"}
-          :class={"{
-            'font-semibold': selectedIndex === #{@index},
-            'font-normal': !(selectedIndex === #{@index})
-          }"}
+          data-listbox-option-selected={listbox_option_text_selected()}
+          data-listbox-option-not-selected={listbox_option_text_not_selected()}
         >
           <%= @display %>
         </span>
         <%= if @detail do %>
           <span
             class={"#{detail_classes(@theme, @selected)} ml-2 truncate text-sm"}
-            :class={"{
-              '#{@theme.selected_light_text_color}': activeIndex === #{@index},
-              '#{@theme.light_text_color}': !(activeIndex === #{@index})
-            }"}
+            data-listbox-option-active={listbox_option_detail_active(@theme)}
+            data-listbox-option-inactive={listbox_option_detail_inactive(@theme)}
           >
             <%= @detail %>
           </span>
@@ -175,13 +154,11 @@ defmodule TailwindLiveComponents.Listbox do
       </div>
 
       <span
-        x-show={"selectedIndex === #{@index}"}
-        class={"absolute inset-y-0 right-0 flex items-center pr-4 #{checkbox_classes(@theme, @selected)}"}
-        style={unless @selected, do: "display: none;"}
-        :class={"{
-          '#{@theme.selected_text_color}': activeIndex === #{@index},
-          '#{@theme.selected_highlight_text_color}': !(activeIndex === #{@index})
-        }"}
+        class={"absolute inset-y-0 right-0 flex items-center pr-4 invisible #{checkbox_classes(@theme, @selected)}"}
+        data-listbox-option-selected={JS.remove_class("invisible")}
+        data-listbox-option-not-selected={JS.add_class("invisible")}
+        data-listbox-option-active={listbox_option_checkbox_active(@theme)}
+        data-listbox-option-inactive={listbox_option_checkbox_inactive(@theme)}
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -199,6 +176,58 @@ defmodule TailwindLiveComponents.Listbox do
       <%= @detail %>
     </span>
     """
+  end
+
+  defp listbox_open(js \\ %JS{}), do: JS.show(js, to: "[tlc-ref='listbox']")
+
+  defp listbox_close(js \\ %JS{}), do: JS.hide(js, to: "[tlc-ref='listbox']", transition: {"ease-in duration-100", "opacity-100", "opacity-0"})
+
+  defp listbox_option_background_active(js \\ %JS{}, theme) do
+    js
+    |> JS.remove_class(theme.text_color)
+    |> JS.add_class("#{theme.selected_text_color} #{theme.selected_bg_color}")
+  end
+
+  defp listbox_option_background_inactive(js \\ %JS{}, theme) do
+    js
+    |> JS.remove_class("#{theme.selected_text_color} #{theme.selected_bg_color}")
+    |> JS.add_class(theme.text_color)
+  end
+
+  defp listbox_option_text_selected(js \\ %JS{}) do
+    js
+    |> JS.remove_class("font-normal")
+    |> JS.add_class("font-semibold")
+  end
+
+  defp listbox_option_text_not_selected(js \\ %JS{}) do
+    js
+    |> JS.remove_class("font-semibold")
+    |> JS.add_class("font-normal")
+  end
+
+  defp listbox_option_detail_active(js \\ %JS{}, theme) do
+    js
+    |> JS.remove_class(theme.light_text_color)
+    |> JS.add_class(theme.selected_light_text_color)
+  end
+
+  defp listbox_option_detail_inactive(js \\ %JS{}, theme) do
+    js
+    |> JS.remove_class(theme.selected_light_text_color)
+    |> JS.add_class(theme.light_text_color)
+  end
+
+  defp listbox_option_checkbox_active(js \\ %JS{}, theme) do
+    js
+    |> JS.remove_class(theme.selected_highlight_text_color)
+    |> JS.add_class(theme.selected_text_color)
+  end
+
+  defp listbox_option_checkbox_inactive(js \\ %JS{}, theme) do
+    js
+    |> JS.remove_class(theme.selected_light_text_color)
+    |> JS.add_class(theme.selected_highlight_text_color)
   end
 
   defp option_classes(theme, selected), do: if(selected, do: "#{theme.selected_text_color} #{theme.selected_bg_color}", else: theme.text_color)

@@ -27,7 +27,9 @@ defmodule TailwindLiveComponents.Label do
     ~H"""
     <div id={@label_id} class="flex items-baseline space-x-2 pl-1">
       <%= if @label do %>
-        <%= Phoenix.HTML.Form.label(@form, @field, @label, class: "block text-md font-medium #{@theme.text_color} mb-0.5") %>
+        <label for={@input_id} id={@label_id} class={"block text-md font-medium #{@theme.text_color} mb-0.5"}>
+          <%= @label %>
+        </label>
       <% end %>
 
       <%= if @error do %>

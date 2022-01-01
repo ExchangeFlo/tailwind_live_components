@@ -138,7 +138,8 @@ defmodule TailwindLiveComponents.TextInput do
     />
 
     <div
-      x-data={"TailwindLiveComponents.telInput()"}
+      id={@input_id <> "-container"}
+      phx-hook="tlcTelInput"
       class="relative mt-1 rounded-md shadow-sm"
     >
       <%= Phoenix.HTML.Form.hidden_input(
@@ -146,14 +147,12 @@ defmodule TailwindLiveComponents.TextInput do
         @field,
         id: @input_id,
         value: @value,
-        "x-model": "value",
-        "x-ref": "valueInput"
+        "tlc-ref": "valueInput"
       ) %>
 
       <input
         type="text"
-        x-model="display"
-        @input.prevent.stop="onValueChanged"
+        tlc-ref="displayInput"
         autocomplete={@autocomplete},
         class={input_class(@theme) <> " pl-9"}
         placeholder={@placeholder}
@@ -243,7 +242,8 @@ defmodule TailwindLiveComponents.TextInput do
     />
 
     <div
-      x-data={"TailwindLiveComponents.zipInput()"}
+      id={@input_id <> "-container"}
+      phx-hook="tlcZipInput"
       class="relative mt-1 flex justify-center"
     >
       <%= Phoenix.HTML.Form.text_input(
@@ -254,9 +254,7 @@ defmodule TailwindLiveComponents.TextInput do
         placeholder: @placeholder,
         class: input_class(@theme),
         autocomplete: @autocomplete,
-        "@input.prevent.stop": "onValueChanged",
-        "x-ref": "valueInput",
-        "x-model": "value",
+        "tlc-ref": "valueInput",
         data: [focus: true]
       ) %>
     </div>
