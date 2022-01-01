@@ -3,7 +3,6 @@
 Set of Elixir LiveView Components for building forms with Tailwind CSS.
 
 - requires TailwindCSS 2.0+
-- requires Alpine.js 3.0+
 
 ## Installation
 
