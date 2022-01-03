@@ -1,7 +1,7 @@
 defmodule TailwindLiveComponents.MixProject do
   use Mix.Project
 
-  @source_url "https://github.com/sourceflo/tailwind_live_components"
+  @source_url "https://github.com/ExchangeFlo/tailwind_live_components"
   @version "0.2.1"
 
   def project do
