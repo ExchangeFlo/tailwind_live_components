@@ -104,18 +104,8 @@ defmodule TailwindLiveComponents.NumberInput do
     <div
       id={@input_id <> "-container"}
       phx-hook="tlcSlider"
-      class="relative w-full mt-1"
+      class="relative w-full mt-2"
     >
-      <div class="flex justify-center items-center">
-        <div class="mb-8 font-semibold text-2xl">
-          <%= if @prefix do %>
-            <span><%= @prefix %></span>
-          <% end %>
-          <span tlc-ref="display">
-            <%= Number.Delimit.number_to_delimited(@value, precision: 0) %>
-          </span>
-        </div>
-      </div>
       <%= Phoenix.HTML.Form.range_input(
         @form,
         @field,
@@ -150,8 +140,18 @@ defmodule TailwindLiveComponents.NumberInput do
         ></div>
       </div>
 
-      <div class={"flex items-center justify-between pt-5 space-x-4 text-md #{@theme.text_color}"}>
+      <div class={"flex items-center justify-between pt-4 space-x-4 text-md #{@theme.text_color}"}>
         <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@min, precision: 0) %></span>
+
+        <span class="flex font-semibold text-2xl">
+          <%= if @prefix do %>
+            <span><%= @prefix %></span>
+          <% end %>
+          <span tlc-ref="display">
+            <%= Number.Delimit.number_to_delimited(@value, precision: 0) %>
+          </span>
+        </span>
+
         <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@max, precision: 0) %></span>
       </div>
     </div>
@@ -186,13 +186,9 @@ defmodule TailwindLiveComponents.NumberInput do
     |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
   end
 
-  defp active_thumb(js \\ %JS{}, theme) do
-    JS.add_class(js, "ring-2 ring-offset-2 #{theme.selected_ring_color} ring-opacity-100")
-  end
+  defp active_thumb(js \\ %JS{}, theme), do: JS.add_class(js, "ring-2 ring-offset-2 #{theme.selected_ring_color} ring-opacity-100")
 
-  defp inactive_thumb(js \\ %JS{}, theme) do
-    JS.remove_class(js, "ring-2 ring-offset-2 #{theme.selected_ring_color} ring-opacity-100")
-  end
+  defp inactive_thumb(js \\ %JS{}, theme), do: JS.remove_class(js, "ring-2 ring-offset-2 #{theme.selected_ring_color} ring-opacity-100")
 
   defp parse_value(value, default \\ 0)
   defp parse_value(%Decimal{} = value, _default), do: Decimal.to_integer(value)
