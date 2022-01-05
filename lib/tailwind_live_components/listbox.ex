@@ -60,7 +60,7 @@ defmodule TailwindLiveComponents.Listbox do
         @form,
         @field,
         id: @input_id,
-        value: @value,
+        value: @selected_value,
         "tlc-ref": "valueInput"
       ) %>
 
