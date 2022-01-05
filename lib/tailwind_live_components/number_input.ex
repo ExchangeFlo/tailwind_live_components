@@ -104,7 +104,7 @@ defmodule TailwindLiveComponents.NumberInput do
     <div
       id={@input_id <> "-container"}
       phx-hook="tlcSlider"
-      class="relative w-full mt-2"
+      class="relative w-full mt-4"
     >
       <%= Phoenix.HTML.Form.range_input(
         @form,
