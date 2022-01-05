@@ -176,6 +176,7 @@ defmodule TailwindLiveComponents.NumberInput do
     assigns
     |> assign_new(:input_id, fn -> input_id end)
     |> assign_new(:label_id, fn -> label_id end)
+    |> assign_new(:label, fn -> nil end)
     |> assign_new(:value, fn -> value end)
     |> assign_new(:autocomplete, fn -> "off" end)
     |> assign_new(:step, fn -> 1 end)

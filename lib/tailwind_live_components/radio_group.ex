@@ -36,8 +36,9 @@ defmodule TailwindLiveComponents.RadioGroup do
       assigns
       |> assign(:options, options)
       |> assign_new(:input_id, fn -> input_id end)
-      |> assign_new(:value, fn -> nil end)
       |> assign_new(:label_id, fn -> label_id end)
+      |> assign_new(:label, fn -> nil end)
+      |> assign_new(:value, fn -> nil end)
       |> assign_new(:error, fn -> nil end)
       |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
       |> assign_new(:orientation, fn -> "vertical" end)

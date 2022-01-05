@@ -47,6 +47,7 @@ defmodule TailwindLiveComponents.Listbox do
       |> assign_new(:selected_display, fn -> selected_display end)
       |> assign_new(:prompt, fn -> prompt end)
       |> assign_new(:label_id, fn -> label_id end)
+      |> assign_new(:label, fn -> nil end)
       |> assign_new(:error, fn -> nil end)
       |> assign_new(:detail, fn -> nil end)
       |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
