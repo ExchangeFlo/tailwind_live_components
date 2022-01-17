@@ -77,7 +77,7 @@ defmodule TailwindLiveComponents.Listbox do
 
       <div class="mt-1 relative">
         <div
-          tlc-ref="button"
+          data-tlc-ref="button"
           tabindex="0"
           aria-haspopup="listbox"
           aria-expanded="false"
