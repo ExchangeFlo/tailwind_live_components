@@ -3,8 +3,8 @@ export default {
   $displayInput: null,
 
   mounted() {
-    this.$valueInput = this.el.querySelector('[tlc-ref="valueInput"]')
-    this.$displayInput = this.el.querySelector('[tlc-ref="displayInput"]')
+    this.$valueInput = this.el.querySelector('[data-tlc-ref="valueInput"]')
+    this.$displayInput = this.el.querySelector('[data-tlc-ref="displayInput"]')
     this.$displayInput.addEventListener("input", (event) => {
       this.handleInput(event.target.value)
     })

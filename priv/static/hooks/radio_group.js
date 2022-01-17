@@ -7,8 +7,8 @@ export default {
   selectedIndex: null,
 
   mounted() {
-    this.$valueInput = this.el.querySelector('[tlc-ref="valueInput"]')
-    this.$radiogroup = this.el.querySelector('[tlc-ref="radiogroup"]')
+    this.$valueInput = this.el.querySelector('[data-tlc-ref="valueInput"]')
+    this.$radiogroup = this.el.querySelector('[data-tlc-ref="radiogroup"]')
 
     this.$options = Array.from(this.$radiogroup.children)
     this.$options.forEach(($option, index) => {

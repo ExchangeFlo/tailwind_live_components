@@ -147,7 +147,7 @@ defmodule TailwindLiveComponents.TextInput do
         @field,
         id: @input_id,
         value: @value,
-        "tlc-ref": "valueInput"
+        "data-tlc-ref": "valueInput"
       ) %>
 
       <input
@@ -254,7 +254,7 @@ defmodule TailwindLiveComponents.TextInput do
         placeholder: @placeholder,
         class: input_class(@theme),
         autocomplete: @autocomplete,
-        "tlc-ref": "valueInput",
+        "data-tlc-ref": "valueInput",
         data: [focus: true]
       ) %>
     </div>

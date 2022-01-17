@@ -10,9 +10,9 @@ export default {
   selectedIndex: null,
 
   mounted() {
-    this.$valueInput = this.el.querySelector('[tlc-ref="valueInput"]')
+    this.$valueInput = this.el.querySelector('[data-tlc-ref="valueInput"]')
 
-    this.$button = this.el.querySelector('[tlc-ref="button"]')
+    this.$button = this.el.querySelector('[data-tlc-ref="button"]')
     this.$button.addEventListener("click", () => this.toggleListbox()),
       this.$button.addEventListener("keydown", (event) => {
         if (event.code == "Enter" || event.code == "Space" || event.code == "ArrowUp" || event.code == "ArrowDown") {
@@ -22,9 +22,9 @@ export default {
         }
       })
 
-    this.$selectedText = this.el.querySelector('[tlc-ref="selectedText"]')
+    this.$selectedText = this.el.querySelector('[data-tlc-ref="selectedText"]')
 
-    this.$listbox = this.el.querySelector('[tlc-ref="listbox"]')
+    this.$listbox = this.el.querySelector('[data-tlc-ref="listbox"]')
     this.$listbox.addEventListener("blur", () => { this.closeListbox() })
     this.$listbox.addEventListener("keydown", (event) => {
       if (event.code == "Enter" || event.code == "Space") {

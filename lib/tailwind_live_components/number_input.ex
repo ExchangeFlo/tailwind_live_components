@@ -115,7 +115,7 @@ defmodule TailwindLiveComponents.NumberInput do
         step: @step,
         value: @value,
         role: "slider",
-        "tlc-ref": "valueInput",
+        "data-tlc-ref": "valueInput",
         "aria-valuemin": @min,
         "aria-valuemax": @max,
         "aria-valuenow": @value,

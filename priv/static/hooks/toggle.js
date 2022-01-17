@@ -4,8 +4,8 @@ export default {
   on: false,
 
   mounted() {
-    this.$valueInput = this.el.querySelector('[tlc-ref="valueInput"]')
-    this.$toggleInput = this.el.querySelector('[tlc-ref="toggleInput"]')
+    this.$valueInput = this.el.querySelector('[data-tlc-ref="valueInput"]')
+    this.$toggleInput = this.el.querySelector('[data-tlc-ref="toggleInput"]')
     this.$toggleInput.addEventListener("click", () => this.toggle())
 
     this.$toggleInput.addEventListener("keydown", (event) => {

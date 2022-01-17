@@ -45,7 +45,7 @@ defmodule TailwindLiveComponents.Toggle do
         @field,
         id: @input_id,
         value: @value,
-        "tlc-ref": "valueInput"
+        "data-tlc-ref": "valueInput"
       ) %>
 
       <div

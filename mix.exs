@@ -2,13 +2,13 @@ defmodule TailwindLiveComponents.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/ExchangeFlo/tailwind_live_components"
-  @version "0.2.5"
+  @version "0.2.6"
 
   def project do
     [
       app: :tailwind_live_components,
       version: @version,
-      elixir: "~> 1.13",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       description: description(),

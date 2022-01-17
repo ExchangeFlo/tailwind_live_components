@@ -10,10 +10,10 @@ export default {
   active: false,
 
   mounted() {
-    this.$valueInput = this.el.querySelector('[tlc-ref="valueInput"]')
-    this.$display = this.el.querySelector('[tlc-ref="display"]')
-    this.$bar = this.el.querySelector('[tlc-ref="bar"]')
-    this.$thumb = this.el.querySelector('[tlc-ref="thumb"]')
+    this.$valueInput = this.el.querySelector('[data-tlc-ref="valueInput"]')
+    this.$display = this.el.querySelector('[data-tlc-ref="display"]')
+    this.$bar = this.el.querySelector('[data-tlc-ref="bar"]')
+    this.$thumb = this.el.querySelector('[data-tlc-ref="thumb"]')
 
     this.value = parseInt(this.$valueInput.value)
     this.min = parseInt(this.$valueInput.min)
