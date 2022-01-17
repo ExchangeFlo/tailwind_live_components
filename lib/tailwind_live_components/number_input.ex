@@ -127,12 +127,12 @@ defmodule TailwindLiveComponents.NumberInput do
       <div for={@input_id} class="relative z-10 h-2">
         <div class={"absolute z-10 left-0 h-3 right-0 bottom-0 top-0 rounded-lg #{@theme.selected_bg_color}"}></div>
         <div
-          tlc-ref="bar"
+          data-tlc-ref="bar"
           class={"absolute z-20 top-0 h-3 bottom-0 rounded-lg #{@theme.light_bg_color}"}
           style={"left:#{@thumb_position}%; right:0%"}>
         </div>
         <div
-          tlc-ref="thumb"
+          data-tlc-ref="thumb"
           class={"absolute z-30 w-7 h-7 border-4 #{@theme.selected_dark_border_color} border-opacity-100 #{@theme.selected_dark_bg_color} rounded-full -mt-2"}
           data-active={active_thumb(@theme)}
           data-inactive={inactive_thumb(@theme)}
@@ -147,7 +147,7 @@ defmodule TailwindLiveComponents.NumberInput do
           <%= if @prefix do %>
             <span><%= @prefix %></span>
           <% end %>
-          <span tlc-ref="display">
+          <span data-tlc-ref="display">
             <%= Number.Delimit.number_to_delimited(@value, precision: 0) %>
           </span>
         </span>

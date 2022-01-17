@@ -56,7 +56,7 @@ defmodule TailwindLiveComponents.Toggle do
         tabindex="0"
         aria-checked={@value}
         aria-labelledby={@label_id}
-        tlc-ref="toggleInput"
+        data-tlc-ref="toggleInput"
       >
         <span
           aria-hidden="true"

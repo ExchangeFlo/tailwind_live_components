@@ -72,7 +72,7 @@ defmodule TailwindLiveComponents.RadioGroup do
         <div
           class={"mt-1 grid grid-cols-1 gap-y-2 #{grid_columns(@options)} sm:gap-x-2"}
           role="none"
-          tlc-ref="radiogroup"
+          data-tlc-ref="radiogroup"
         >
           <%= for {option, index} <- Enum.with_index(@options) do %>
             <.horizontal_radio_option
@@ -87,7 +87,7 @@ defmodule TailwindLiveComponents.RadioGroup do
         <div
           class="mt-1 space-y-2"
           role="none"
-          tlc-ref="radiogroup"
+          data-tlc-ref="radiogroup"
         >
           <%= for {option, index} <- Enum.with_index(@options) do %>
             <.vertical_radio_option
