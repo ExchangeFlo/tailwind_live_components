@@ -36,7 +36,7 @@ defmodule TailwindLiveComponents.TextInput do
       error={@error}
     />
 
-    <div class="mt-1">
+    <div class="relative mt-1 rounded-md shadow-sm">
       <%= Phoenix.HTML.Form.text_input(
         @form,
         @field,
@@ -85,7 +85,7 @@ defmodule TailwindLiveComponents.TextInput do
       error={@error}
     />
 
-    <div class="mt-1">
+    <div class="relative mt-1 rounded-md shadow-sm">
       <%= Phoenix.HTML.Form.textarea(
         @form,
         @field,
@@ -154,7 +154,6 @@ defmodule TailwindLiveComponents.TextInput do
         autocomplete={@autocomplete},
         class={input_class(@theme) <> " pl-9"}
         placeholder={@placeholder}
-        data-focus="true"
       />
       <div class="absolute inset-y-0 left-0 pl-3 py-2 flex items-center pointer-events-none">
         <span class={"#{@theme.light_text_color} sm:text-lg"}>+1</span>
@@ -241,7 +240,7 @@ defmodule TailwindLiveComponents.TextInput do
     <div
       id={@input_id <> "-container"}
       phx-hook="tlcZipInput"
-      class="relative mt-1 flex justify-center"
+      class="relative mt-1 rounded-md shadow-sm"
     >
       <%= Phoenix.HTML.Form.text_input(
         @form,
@@ -293,39 +292,25 @@ defmodule TailwindLiveComponents.TextInput do
       error={@error}
     />
 
-    <div class="mt-1">
+    <div
+      id={@input_id <> "-container"}
+      phx-hook="tlcAddressInput"
+      data-api-key={@api_key}
+      data-latitude={@latitude}
+      data-longitude={@longitude}
+      data-country-code={@country_code}
+      class="relative mt-1 rounded-md shadow-sm"
+    >
       <%= Phoenix.HTML.Form.text_input(
         @form,
         @field,
         id: @input_id,
-        autocomplete: false,
+        autocomplete: "off",
         value: @value,
         placeholder: @placeholder,
-        class: input_class(@theme)
+        class: input_class(@theme),
+        "data-tlc-ref": "valueInput"
       ) %>
-
-      <script async src={"https://maps.googleapis.com/maps/api/js?key=#{@api_key}&libraries=places&callback=initAutocomplete"}></script>
-      <script type="text/javascript">
-        function initAutocomplete() {
-          const center = { lat: <%= @latitude %>, lng: <%= @longitude %> };
-          // Create a bounding box with sides ~10km away from the center point
-          const defaultBounds = {
-            north: center.lat + 0.1,
-            south: center.lat - 0.1,
-            east: center.lng + 0.1,
-            west: center.lng - 0.1,
-          };
-          const input = document.getElementById("<%= @input_id %>");
-          const options = {
-            bounds: defaultBounds,
-            componentRestrictions: { country: "<%= @country_code %>" },
-            fields: ["address_components"],
-            strictBounds: false,
-            types: ["address"],
-          };
-          const autocomplete = new google.maps.places.Autocomplete(input, options);
-        }
-      </script>
     </div>
 
     <.detail {assigns} />

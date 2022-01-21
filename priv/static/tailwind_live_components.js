@@ -4,6 +4,7 @@ import Slider from "./hooks/slider"
 import TelInput from "./hooks/tel_input"
 import Toggle from "./hooks/toggle"
 import ZipInput from "./hooks/zip_input"
+import AddressInput from "./hooks/address_input"
 
 let Hooks = {}
 Hooks.tlcListbox = Listbox
@@ -12,5 +13,6 @@ Hooks.tlcSlider = Slider
 Hooks.tlcTelInput = TelInput
 Hooks.tlcToggle = Toggle
 Hooks.tlcZipInput = ZipInput
+Hooks.tlcAddressInput = AddressInput
 
 export default Hooks
