@@ -52,8 +52,7 @@ defmodule TailwindLiveComponents.NumberInput do
         value: @value,
         autocomplete: @autocomplete,
         placeholder: @placeholder,
-        class: "#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md ",
-        data: [focus: true]
+        class: "#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md "
       ) %>
     </div>
 
@@ -120,8 +119,7 @@ defmodule TailwindLiveComponents.NumberInput do
         "aria-valuemax": @max,
         "aria-valuenow": @value,
         tabindex: "0",
-        class: "absolute appearance-none z-20 left-2 h-7 w-full opacity-0 cursor-pointer",
-        data: [focus: true]
+        class: "absolute appearance-none z-20 left-2 h-7 w-full opacity-0 cursor-pointer"
       ) %>
 
       <div for={@input_id} class="relative z-10 h-2">

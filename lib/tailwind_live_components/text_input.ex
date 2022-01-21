@@ -44,8 +44,7 @@ defmodule TailwindLiveComponents.TextInput do
         autocomplete: @autocomplete,
         value: @value,
         placeholder: @placeholder,
-        class: input_class(@theme),
-        data: [focus: true]
+        class: input_class(@theme)
       ) %>
     </div>
 
@@ -95,8 +94,7 @@ defmodule TailwindLiveComponents.TextInput do
         value: @value,
         rows: 3,
         placeholder: @placeholder,
-        class: input_class(@theme),
-        data: [focus: true]
+        class: input_class(@theme)
       ) %>
     </div>
 
@@ -203,8 +201,7 @@ defmodule TailwindLiveComponents.TextInput do
         id: @input_id,
         value: @value,
         autocomplete: @autocomplete,
-        class: input_class(@theme),
-        data: [focus: true]
+        class: input_class(@theme)
       ) %>
     </div>
 
@@ -254,8 +251,12 @@ defmodule TailwindLiveComponents.TextInput do
         placeholder: @placeholder,
         class: input_class(@theme),
         autocomplete: @autocomplete,
-        "data-tlc-ref": "valueInput",
-        data: [focus: true]
+        "data-tlc-ref": "valueInput"
+      ) %>
+    </div>
+
+    <.detail {assigns} />
+    """
       ) %>
     </div>
 
