@@ -257,7 +257,75 @@ defmodule TailwindLiveComponents.TextInput do
 
     <.detail {assigns} />
     """
+  end
+
+  @doc """
+  Renders the address input with Google Places API autocomplete
+
+  Requires setup of Google Places API: https://developers.google.com/maps/documentation/javascript/places-autocomplete
+
+  ## Options
+
+    * `form` - The form identifier
+    * `field` - The field name
+    * `value` - The current value for the input
+    * `api_key` - Google Places API Key
+    * `latitude` - The latitude for the center point of the Places search
+    * `longitude` - The longitude for the center point of the Places search
+    * `country_code` - The country code to restrict Google Place search to (default is 'us')
+    * `label` - The text for the generated `<label>` element
+    * `detail` - Optional detail shown below the input
+    * `placeholder` - Optional placeholder
+    * `error` - Option error message
+    * `theme` - Optional theme to use for Tailwind classes
+  """
+  def address_input(assigns) do
+    assigns = assigns |> load_assigns() |> assign_new(:country_code, fn -> "us" end)
+
+    ~H"""
+    <Label.label
+      form={@form}
+      field={@field}
+      theme={@theme}
+      label={@label}
+      input_id={@input_id}
+      label_id={@label_id}
+      error={@error}
+    />
+
+    <div class="mt-1">
+      <%= Phoenix.HTML.Form.text_input(
+        @form,
+        @field,
+        id: @input_id,
+        autocomplete: false,
+        value: @value,
+        placeholder: @placeholder,
+        class: input_class(@theme)
       ) %>
+
+      <script async src={"https://maps.googleapis.com/maps/api/js?key=#{@api_key}&libraries=places&callback=initAutocomplete"}></script>
+      <script type="text/javascript">
+        function initAutocomplete() {
+          const center = { lat: <%= @latitude %>, lng: <%= @longitude %> };
+          // Create a bounding box with sides ~10km away from the center point
+          const defaultBounds = {
+            north: center.lat + 0.1,
+            south: center.lat - 0.1,
+            east: center.lng + 0.1,
+            west: center.lng - 0.1,
+          };
+          const input = document.getElementById("<%= @input_id %>");
+          const options = {
+            bounds: defaultBounds,
+            componentRestrictions: { country: "<%= @country_code %>" },
+            fields: ["address_components"],
+            strictBounds: false,
+            types: ["address"],
+          };
+          const autocomplete = new google.maps.places.Autocomplete(input, options);
+        }
+      </script>
     </div>
 
     <.detail {assigns} />
