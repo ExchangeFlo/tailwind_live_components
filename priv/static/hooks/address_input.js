@@ -6,7 +6,6 @@ export default {
   countryCode: null,
 
   mounted() {
-    console.log('mounted')
     this.$valueInput = this.el.querySelector('[data-tlc-ref="valueInput"]')
     this.apiKey = this.el.dataset.apiKey
     this.latitude = this.el.dataset.latitude
@@ -14,8 +13,6 @@ export default {
     this.countryCode = this.el.dataset.countryCode
 
     window.initAutocomplete = () => {
-      console.log('initAutocomplete')
-
       const center = {
         lat: parseFloat(this.latitude),
         lng: parseFloat(this.longitude)
@@ -36,19 +33,12 @@ export default {
       })
     }
 
-    this.loadGooglePlaces(document, 'script', 'google-places');
+    this.loadGooglePlaces()
   },
 
-  loadGooglePlaces(d, s, id) {
-    console.log('loadGooglePlaces')
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) { return; }
-    js = d.createElement(s); js.id = id;
-    js.onload = function () {
-      console.log('js.onload')
-      // remote script has loaded
-    };
-    js.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&libraries=places&callback=initAutocomplete`;
-    fjs.parentNode.insertBefore(js, fjs);
+  loadGooglePlaces(d, s) {
+    js = document.createElement('script')
+    js.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&libraries=places&callback=initAutocomplete`
+    this.$valueInput.parentNode.insertBefore(js, this.$valueInput)
   },
 }
