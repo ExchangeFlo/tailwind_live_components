@@ -31,32 +31,34 @@ defmodule TailwindLiveComponents.NumberInput do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label
-      form={@form}
-      field={@field}
-      theme={@theme}
-      label={@label}
-      input_id={@input_id}
-      label_id={@label_id}
-      error={@error}
-    />
+    <div id={@input_id <> "-container"}>
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
+      />
 
-    <div class="mt-1">
-      <%= Phoenix.HTML.Form.number_input(
-        @form,
-        @field,
-        id: @input_id,
-        min: @min,
-        max: @max,
-        step: @step,
-        value: @value,
-        autocomplete: @autocomplete,
-        placeholder: @placeholder,
-        class: "#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md "
-      ) %>
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <%= Phoenix.HTML.Form.number_input(
+          @form,
+          @field,
+          id: @input_id,
+          min: @min,
+          max: @max,
+          step: @step,
+          value: @value,
+          autocomplete: @autocomplete,
+          placeholder: @placeholder,
+          class: "#{@theme.bg_color} #{@theme.text_color} relative w-full border #{@theme.border_color} rounded-md shadow-sm px-3 py-2 text-left sm:text-md cursor-default focus:outline-none focus:ring-1 #{@theme.focus_ring_color} #{@theme.focus_border_color} focus:shadow-md "
+        ) %>
+      </div>
+
+      <.detail {assigns} />
     </div>
-
-    <.detail {assigns} />
     """
   end
 
@@ -90,67 +92,68 @@ defmodule TailwindLiveComponents.NumberInput do
     assigns = assign(assigns, :thumb_position, (value - min) / (max - min) * 96)
 
     ~H"""
-    <Label.label
-      form={@form}
-      field={@field}
-      theme={@theme}
-      label={@label}
-      input_id={@input_id}
-      label_id={@label_id}
-      error={@error}
-    />
-
     <div
       id={@input_id <> "-container"}
       phx-hook="tlcSlider"
-      class="relative w-full mt-4"
     >
-      <%= Phoenix.HTML.Form.range_input(
-        @form,
-        @field,
-        id: @input_id,
-        min: @min,
-        max: @max,
-        step: @step,
-        value: @value,
-        role: "slider",
-        "data-tlc-ref": "valueInput",
-        "aria-valuemin": @min,
-        "aria-valuemax": @max,
-        "aria-valuenow": @value,
-        tabindex: "0",
-        class: "absolute appearance-none z-20 left-2 h-7 w-full opacity-0 cursor-pointer"
-      ) %>
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
+      />
 
-      <div for={@input_id} class="relative z-10 h-2">
-        <div class={"absolute z-10 left-0 h-3 right-0 bottom-0 top-0 rounded-lg #{@theme.selected_bg_color}"}></div>
-        <div
-          data-tlc-ref="bar"
-          class={"absolute z-20 top-0 h-3 bottom-0 rounded-lg #{@theme.light_bg_color}"}
-          style={"left:#{@thumb_position}%; right:0%"}>
+      <div class="relative w-full mt-4">
+        <%= Phoenix.HTML.Form.range_input(
+          @form,
+          @field,
+          id: @input_id,
+          min: @min,
+          max: @max,
+          step: @step,
+          value: @value,
+          role: "slider",
+          "data-tlc-ref": "valueInput",
+          "aria-valuemin": @min,
+          "aria-valuemax": @max,
+          "aria-valuenow": @value,
+          tabindex: "0",
+          class: "absolute appearance-none z-20 left-2 h-7 w-full opacity-0 cursor-pointer"
+        ) %>
+
+        <div for={@input_id} class="relative z-10 h-2">
+          <div class={"absolute z-10 left-0 h-3 right-0 bottom-0 top-0 rounded-lg #{@theme.selected_bg_color}"}></div>
+          <div
+            data-tlc-ref="bar"
+            class={"absolute z-20 top-0 h-3 bottom-0 rounded-lg #{@theme.light_bg_color}"}
+            style={"left:#{@thumb_position}%; right:0%"}>
+          </div>
+          <div
+            data-tlc-ref="thumb"
+            class={"absolute z-30 w-7 h-7 border-4 #{@theme.selected_dark_border_color} border-opacity-100 #{@theme.selected_dark_bg_color} rounded-full -mt-2"}
+            data-active={active_thumb(@theme)}
+            data-inactive={inactive_thumb(@theme)}
+            style={"left: #{@thumb_position}%"}
+          ></div>
         </div>
-        <div
-          data-tlc-ref="thumb"
-          class={"absolute z-30 w-7 h-7 border-4 #{@theme.selected_dark_border_color} border-opacity-100 #{@theme.selected_dark_bg_color} rounded-full -mt-2"}
-          data-active={active_thumb(@theme)}
-          data-inactive={inactive_thumb(@theme)}
-          style={"left: #{@thumb_position}%"}
-        ></div>
-      </div>
 
-      <div class={"flex items-center justify-between pt-4 space-x-4 text-md #{@theme.text_color}"}>
-        <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@min, precision: 0) %></span>
+        <div class={"flex items-center justify-between pt-4 space-x-4 text-md #{@theme.text_color}"}>
+          <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@min, precision: 0) %></span>
 
-        <span class="flex font-semibold text-2xl">
-          <%= if @prefix do %>
-            <span><%= @prefix %></span>
-          <% end %>
-          <span data-tlc-ref="display">
-            <%= Number.Delimit.number_to_delimited(@value, precision: 0) %>
+          <span class="flex font-semibold text-2xl">
+            <%= if @prefix do %>
+              <span><%= @prefix %></span>
+            <% end %>
+            <span data-tlc-ref="display">
+              <%= Number.Delimit.number_to_delimited(@value, precision: 0) %>
+            </span>
           </span>
-        </span>
 
-        <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@max, precision: 0) %></span>
+          <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@max, precision: 0) %></span>
+        </div>
       </div>
     </div>
     """

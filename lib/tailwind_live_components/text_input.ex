@@ -26,29 +26,31 @@ defmodule TailwindLiveComponents.TextInput do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label
-      form={@form}
-      field={@field}
-      theme={@theme}
-      label={@label}
-      input_id={@input_id}
-      label_id={@label_id}
-      error={@error}
-    />
+    <div id={@input_id <> "-container"}>
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
+      />
 
-    <div class="relative mt-1 rounded-md shadow-sm">
-      <%= Phoenix.HTML.Form.text_input(
-        @form,
-        @field,
-        id: @input_id,
-        autocomplete: @autocomplete,
-        value: @value,
-        placeholder: @placeholder,
-        class: input_class(@theme)
-      ) %>
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <%= Phoenix.HTML.Form.text_input(
+          @form,
+          @field,
+          id: @input_id,
+          autocomplete: @autocomplete,
+          value: @value,
+          placeholder: @placeholder,
+          class: input_class(@theme)
+        ) %>
+      </div>
+
+      <.detail {assigns} />
     </div>
-
-    <.detail {assigns} />
     """
   end
 
@@ -75,30 +77,32 @@ defmodule TailwindLiveComponents.TextInput do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label
-      form={@form}
-      field={@field}
-      theme={@theme}
-      label={@label}
-      input_id={@input_id}
-      label_id={@label_id}
-      error={@error}
-    />
+    <div id={@input_id <> "-container"}>
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
+      />
 
-    <div class="relative mt-1 rounded-md shadow-sm">
-      <%= Phoenix.HTML.Form.textarea(
-        @form,
-        @field,
-        id: @input_id,
-        autocomplete: @autocomplete,
-        value: @value,
-        rows: 3,
-        placeholder: @placeholder,
-        class: input_class(@theme)
-      ) %>
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <%= Phoenix.HTML.Form.textarea(
+          @form,
+          @field,
+          id: @input_id,
+          autocomplete: @autocomplete,
+          value: @value,
+          rows: 3,
+          placeholder: @placeholder,
+          class: input_class(@theme)
+        ) %>
+      </div>
+
+      <.detail {assigns} />
     </div>
-
-    <.detail {assigns} />
     """
   end
 
@@ -125,42 +129,43 @@ defmodule TailwindLiveComponents.TextInput do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label
-      form={@form}
-      field={@field}
-      theme={@theme}
-      label={@label}
-      input_id={@input_id}
-      label_id={@label_id}
-      error={@error}
-    />
-
     <div
       id={@input_id <> "-container"}
       phx-hook="tlcTelInput"
-      class="relative mt-1 rounded-md shadow-sm"
     >
-      <%= Phoenix.HTML.Form.hidden_input(
-        @form,
-        @field,
-        id: @input_id,
-        value: @value,
-        "data-tlc-ref": "valueInput"
-      ) %>
-
-      <input
-        type="text"
-        data-tlc-ref="displayInput"
-        autocomplete={@autocomplete},
-        class={input_class(@theme) <> " pl-9"}
-        placeholder={@placeholder}
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
       />
-      <div class="absolute inset-y-0 left-0 pl-3 py-2 flex items-center pointer-events-none">
-        <span class={"#{@theme.light_text_color} sm:text-lg"}>+1</span>
-      </div>
-    </div>
 
-    <.detail {assigns} />
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <%= Phoenix.HTML.Form.hidden_input(
+          @form,
+          @field,
+          id: @input_id,
+          value: @value,
+          "data-tlc-ref": "valueInput"
+        ) %>
+
+        <input
+          type="text"
+          data-tlc-ref="displayInput"
+          autocomplete={@autocomplete},
+          class={input_class(@theme) <> " pl-9"}
+          placeholder={@placeholder}
+        />
+        <div class="absolute inset-y-0 left-0 pl-3 py-2 flex items-center pointer-events-none">
+          <span class={"#{@theme.light_text_color} sm:text-lg"}>+1</span>
+        </div>
+      </div>
+
+      <.detail {assigns} />
+    </div>
     """
   end
 
@@ -183,28 +188,30 @@ defmodule TailwindLiveComponents.TextInput do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label
-      form={@form}
-      field={@field}
-      theme={@theme}
-      label={@label}
-      input_id={@input_id}
-      label_id={@label_id}
-      error={@error}
-    />
+    <div id={@input_id <> "-container"}>
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
+      />
 
-    <div class="relative mt-1 rounded-md shadow-sm">
-      <%= Phoenix.HTML.Form.date_input(
-        @form,
-        @field,
-        id: @input_id,
-        value: @value,
-        autocomplete: @autocomplete,
-        class: input_class(@theme)
-      ) %>
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <%= Phoenix.HTML.Form.date_input(
+          @form,
+          @field,
+          id: @input_id,
+          value: @value,
+          autocomplete: @autocomplete,
+          class: input_class(@theme)
+        ) %>
+      </div>
+
+      <.detail {assigns} />
     </div>
-
-    <.detail {assigns} />
     """
   end
 
@@ -227,34 +234,35 @@ defmodule TailwindLiveComponents.TextInput do
     assigns = load_assigns(assigns)
 
     ~H"""
-    <Label.label
-      form={@form}
-      field={@field}
-      theme={@theme}
-      label={@label}
-      input_id={@input_id}
-      label_id={@label_id}
-      error={@error}
-    />
-
     <div
       id={@input_id <> "-container"}
       phx-hook="tlcZipInput"
-      class="relative mt-1 rounded-md shadow-sm"
     >
-      <%= Phoenix.HTML.Form.text_input(
-        @form,
-        @field,
-        id: @input_id,
-        value: @value,
-        placeholder: @placeholder,
-        class: input_class(@theme),
-        autocomplete: @autocomplete,
-        "data-tlc-ref": "valueInput"
-      ) %>
-    </div>
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
+      />
 
-    <.detail {assigns} />
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <%= Phoenix.HTML.Form.text_input(
+          @form,
+          @field,
+          id: @input_id,
+          value: @value,
+          placeholder: @placeholder,
+          class: input_class(@theme),
+          autocomplete: @autocomplete,
+          "data-tlc-ref": "valueInput"
+        ) %>
+      </div>
+
+      <.detail {assigns} />
+    </div>
     """
   end
 
@@ -282,16 +290,6 @@ defmodule TailwindLiveComponents.TextInput do
     assigns = assigns |> load_assigns() |> assign_new(:country_code, fn -> "us" end)
 
     ~H"""
-    <Label.label
-      form={@form}
-      field={@field}
-      theme={@theme}
-      label={@label}
-      input_id={@input_id}
-      label_id={@label_id}
-      error={@error}
-    />
-
     <div
       id={@input_id <> "-container"}
       phx-hook="tlcAddressInput"
@@ -299,21 +297,32 @@ defmodule TailwindLiveComponents.TextInput do
       data-latitude={@latitude}
       data-longitude={@longitude}
       data-country-code={@country_code}
-      class="relative mt-1 rounded-md shadow-sm"
     >
-      <%= Phoenix.HTML.Form.text_input(
-        @form,
-        @field,
-        id: @input_id,
-        autocomplete: "off",
-        value: @value,
-        placeholder: @placeholder,
-        class: input_class(@theme),
-        "data-tlc-ref": "valueInput"
-      ) %>
-    </div>
+      <Label.label
+        form={@form}
+        field={@field}
+        theme={@theme}
+        label={@label}
+        input_id={@input_id}
+        label_id={@label_id}
+        error={@error}
+      />
 
-    <.detail {assigns} />
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <%= Phoenix.HTML.Form.text_input(
+          @form,
+          @field,
+          id: @input_id,
+          autocomplete: "off",
+          value: @value,
+          placeholder: @placeholder,
+          class: input_class(@theme),
+          "data-tlc-ref": "valueInput"
+        ) %>
+      </div>
+
+      <.detail {assigns} />
+    </div>
     """
   end
 
