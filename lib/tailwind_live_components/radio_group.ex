@@ -111,6 +111,7 @@ defmodule TailwindLiveComponents.RadioGroup do
       |> assign_new(:option_value, fn -> Map.get(assigns.option, :value) end)
       |> assign_new(:option_display, fn -> Map.get(assigns.option, :display) end)
       |> assign_new(:option_detail, fn -> Map.get(assigns.option, :detail) end)
+      |> assign_new(:option_icon, fn -> Map.get(assigns.option, :icon) end)
 
     ~H"""
     <div
@@ -127,6 +128,16 @@ defmodule TailwindLiveComponents.RadioGroup do
     >
       <div class="flex items-center justify-between w-full">
         <div class="flex items-center">
+          <%= if @option_icon do %>
+            <div
+              class="flex-shrink-0 inline-flex pr-4"
+              data-radiogroup-option-selected={radiogroup_option_display_selected(@theme)}
+              data-radiogroup-option-not-selected={radiogroup_option_display_not_selected(@theme)}
+            >
+              <img class="h-8 w-8" src={@option_icon} alt={@option_display}>
+            </div>
+          <% end %>
+
           <div class="text-md">
             <p
               id={@option_label_id}
@@ -171,6 +182,7 @@ defmodule TailwindLiveComponents.RadioGroup do
       |> assign_new(:option_value, fn -> Map.get(assigns.option, :value) end)
       |> assign_new(:option_display, fn -> Map.get(assigns.option, :display) end)
       |> assign_new(:option_detail, fn -> Map.get(assigns.option, :detail) end)
+      |> assign_new(:option_icon, fn -> Map.get(assigns.option, :icon) end)
 
     ~H"""
     <div
@@ -186,8 +198,16 @@ defmodule TailwindLiveComponents.RadioGroup do
       data-radiogroup-option-not-selected={radiogroup_option_color_not_selected(@theme)}
     >
       <div class="flex justify-between w-full">
-        <div class="flex-1 flex">
-          <div class="flex flex-col">
+        <div class="flex-1 flex justify-center">
+          <div class="flex flex-col items-center">
+            <%= if @option_icon do %>
+              <div
+                data-radiogroup-option-selected={radiogroup_option_display_selected(@theme)}
+                data-radiogroup-option-not-selected={radiogroup_option_display_not_selected(@theme)}
+              >
+                <img class="h-10 max-w-10" src={@option_icon} alt={@option_display}>
+              </div>
+            <% end %>
             <span
               id={@option_label_id}
               class="font-medium text-md"
@@ -208,16 +228,6 @@ defmodule TailwindLiveComponents.RadioGroup do
             <% end %>
           </div>
         </div>
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          class="w-6 h-6"
-          data-radiogroup-option-selected={radiogroup_option_check_selected()}
-          data-radiogroup-option-not-selected={radiogroup_option_check_not_selected()}
-        >
-          <circle cx="12" cy="12" r="12" fill="#fff" fill-opacity="0.2"></circle>
-          <path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>
       </div>
     </div>
     """
