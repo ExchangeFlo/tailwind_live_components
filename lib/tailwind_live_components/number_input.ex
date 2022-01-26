@@ -47,6 +47,7 @@ defmodule TailwindLiveComponents.NumberInput do
           @form,
           @field,
           id: @input_id,
+          tabindex: 0,
           min: @min,
           max: @max,
           step: @step,
@@ -116,11 +117,11 @@ defmodule TailwindLiveComponents.NumberInput do
           step: @step,
           value: @value,
           role: "slider",
+          tabindex: 0,
           "data-tlc-ref": "valueInput",
           "aria-valuemin": @min,
           "aria-valuemax": @max,
           "aria-valuenow": @value,
-          tabindex: "0",
           class: "absolute appearance-none z-20 left-2 h-7 w-full opacity-0 cursor-pointer"
         ) %>
 

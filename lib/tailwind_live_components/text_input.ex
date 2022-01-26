@@ -42,6 +42,7 @@ defmodule TailwindLiveComponents.TextInput do
           @form,
           @field,
           id: @input_id,
+          tabindex: 0,
           autocomplete: @autocomplete,
           value: @value,
           placeholder: @placeholder,
