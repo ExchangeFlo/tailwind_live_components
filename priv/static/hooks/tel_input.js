@@ -15,8 +15,9 @@ export default {
   handleInput(input) {
     let value = this.scrubInput(input)
 
-    this.$valueInput.value = value,
-      this.$displayInput.value = this.formatDisplay(value)
+    this.$displayInput.value = this.formatDisplay(value),
+      this.$valueInput.value = value,
+      this.$valueInput.dispatchEvent(new CustomEvent('change', { bubbles: true }));
   },
 
   scrubInput(input) {

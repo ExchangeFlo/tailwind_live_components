@@ -129,11 +129,12 @@ export default {
         liveSocket.execJS(el, el.getAttribute("data-listbox-option-selected"))
       })
 
-      this.$valueInput.value = $option.dataset.value
       this.$selectedText.innerText = $option.dataset.display
+      this.$valueInput.value = $option.dataset.value
+      this.$valueInput.dispatchEvent(new CustomEvent('change', { bubbles: true }));
     } else {
-      this.$valueInput.value = null
       this.$selectedText.innerText = '\xa0'
+      this.$valueInput.value = null
     }
 
     this.selectedIndex = index

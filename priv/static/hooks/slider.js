@@ -50,5 +50,7 @@ export default {
     this.$display.innerText = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     this.$bar.style = `left:${thumbPosition}%; right:0%`
     this.$thumb.style = `left:${thumbPosition}%`
+
+    this.$valueInput.dispatchEvent(new CustomEvent('change', { bubbles: true }));
   }
 }

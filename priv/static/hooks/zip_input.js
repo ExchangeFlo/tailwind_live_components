@@ -5,6 +5,7 @@ export default {
     this.$valueInput = this.el.querySelector('[data-tlc-ref="valueInput"]')
     this.$valueInput.addEventListener("input", (event) => {
       this.$valueInput.value = this.scrubInput(event.target.value)
+      this.$valueInput.dispatchEvent(new CustomEvent('change', { bubbles: true }));
     })
 
     this.scrubInput(this.$valueInput.value)

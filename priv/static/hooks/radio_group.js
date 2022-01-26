@@ -52,13 +52,15 @@ export default {
     // select the new selected option
     if (index !== null) {
       let $option = this.$options[index]
-      this.$valueInput.value = $option.dataset.value
 
       $option.setAttribute('aria-checked', "true"),
         liveSocket.execJS($option, $option.getAttribute("data-radiogroup-option-selected")),
         $option.querySelectorAll(`[data-radiogroup-option-selected]`).forEach(el => {
           liveSocket.execJS(el, el.getAttribute("data-radiogroup-option-selected"))
         })
+
+      this.$valueInput.value = $option.dataset.value
+      this.$valueInput.dispatchEvent(new CustomEvent('change', { bubbles: true }));
     }
 
     this.selectedIndex = index

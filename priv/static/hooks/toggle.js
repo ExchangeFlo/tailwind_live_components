@@ -32,5 +32,7 @@ export default {
         liveSocket.execJS(el, el.getAttribute("data-toggle-off"))
       })
     }
+
+    this.$valueInput.dispatchEvent(new CustomEvent('change', { bubbles: true }));
   }
 }
