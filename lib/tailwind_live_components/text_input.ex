@@ -157,8 +157,8 @@ defmodule TailwindLiveComponents.TextInput do
         <input
           type="text"
           data-tlc-ref="displayInput"
-          autocomplete={@autocomplete},
-          tabindex="0",
+          autocomplete={@autocomplete}
+          tabindex="0"
           class={input_class(@theme) <> " pl-9"}
           placeholder={@placeholder}
         />
