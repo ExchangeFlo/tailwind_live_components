@@ -25,7 +25,7 @@ defmodule TailwindLiveComponents.Label do
       |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
 
     ~H"""
-    <div id={@label_id} class="flex items-baseline space-x-2 pl-1">
+    <div class="flex items-baseline space-x-2 pl-1">
       <%= if @label do %>
         <label for={@input_id} id={@label_id} class={"block text-md font-medium #{@theme.text_color} mb-0.5"}>
           <%= @label %>
