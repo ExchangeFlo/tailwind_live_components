@@ -10,8 +10,15 @@ export default {
     this.$valueInput = this.el.querySelector('[data-tlc-ref="valueInput"]')
     this.$radiogroup = this.el.querySelector('[data-tlc-ref="radiogroup"]')
 
+    let currentValue = this.$valueInput.value
+
     this.$options = Array.from(this.$radiogroup.children)
     this.$options.forEach(($option, index) => {
+      if (currentValue == $option.dataset.value) {
+        this.highlightSelected(index)
+        this.setActive(index)
+      }
+
       $option.addEventListener("mouseenter", () => this.setActive(index)),
         $option.addEventListener("click", () => this.setSelected(index)),
         $option.addEventListener("keydown", (event) => {
@@ -51,18 +58,24 @@ export default {
 
     // select the new selected option
     if (index !== null) {
-      let $option = this.$options[index]
+      this.highlightSelected(index)
 
-      $option.setAttribute('aria-checked', "true"),
-        liveSocket.execJS($option, $option.getAttribute("data-radiogroup-option-selected")),
-        $option.querySelectorAll(`[data-radiogroup-option-selected]`).forEach(el => {
-          liveSocket.execJS(el, el.getAttribute("data-radiogroup-option-selected"))
-        })
+      let $option = this.$options[index]
 
       this.$valueInput.value = $option.dataset.value
       this.$valueInput.dispatchEvent(new CustomEvent('change', { bubbles: true }));
     }
 
     this.selectedIndex = index
+  },
+
+  highlightSelected(index) {
+    let $option = this.$options[index]
+
+    $option.setAttribute('aria-checked', "true"),
+      liveSocket.execJS($option, $option.getAttribute("data-radiogroup-option-selected")),
+      $option.querySelectorAll(`[data-radiogroup-option-selected]`).forEach(el => {
+        liveSocket.execJS(el, el.getAttribute("data-radiogroup-option-selected"))
+      })
   }
 }
