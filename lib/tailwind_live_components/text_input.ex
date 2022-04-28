@@ -288,20 +288,32 @@ defmodule TailwindLiveComponents.TextInput do
     * `label` - The text for the generated `<label>` element
     * `detail` - Optional detail shown below the input
     * `placeholder` - Optional placeholder
+    * `address_field_id` - Optional input id of the address field
+    * `city_field_id` - Optional input id of the city field
+    * `state_field_id` - Optional input id of the state field
     * `error` - Option error message
     * `theme` - Optional theme to use for Tailwind classes
   """
-  def address_input(assigns) do
-    assigns = assigns |> load_assigns() |> assign_new(:country_code, fn -> "us" end)
+  def places_input(assigns) do
+    assigns =
+      assigns
+      |> load_assigns()
+      |> assign_new(:country_code, fn -> "us" end)
+      |> assign_new(:address_input_id, fn -> nil end)
+      |> assign_new(:city_input_id, fn -> nil end)
+      |> assign_new(:state_input_id, fn -> nil end)
 
     ~H"""
     <div
       id={@input_id <> "-container"}
-      phx-hook="tlcAddressInput"
+      phx-hook="tlcPlacesInput"
       data-api-key={@api_key}
       data-latitude={@latitude}
       data-longitude={@longitude}
       data-country-code={@country_code}
+      data-address-input-id={@address_input_id}
+      data-city-input-id={@city_input_id}
+      data-state-input-id={@state_input_id}
     >
       <Label.label
         form={@form}
