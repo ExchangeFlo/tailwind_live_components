@@ -155,6 +155,8 @@ defmodule TailwindLiveComponents.TextInput do
         ) %>
 
         <input
+          id={@input_id <> "-display"}
+          phx-update="ignore"
           type="text"
           data-tlc-ref="displayInput"
           autocomplete={@autocomplete}
@@ -365,7 +367,7 @@ defmodule TailwindLiveComponents.TextInput do
     |> assign_new(:input_id, fn -> input_id end)
     |> assign_new(:label_id, fn -> label_id end)
     |> assign_new(:label, fn -> nil end)
-    |> assign_new(:value, fn -> nil end)
+    |> assign_new(:value, fn -> Phoenix.HTML.Form.input_value(assigns.form, assigns.field) end)
     |> assign_new(:autocomplete, fn -> "off" end)
     |> assign_new(:placeholder, fn -> nil end)
     |> assign_new(:error, fn -> nil end)
