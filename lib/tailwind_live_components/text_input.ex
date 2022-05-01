@@ -155,8 +155,6 @@ defmodule TailwindLiveComponents.TextInput do
         ) %>
 
         <input
-          id={@input_id <> "-display"}
-          phx-update="ignore"
           type="text"
           data-tlc-ref="displayInput"
           autocomplete={@autocomplete}

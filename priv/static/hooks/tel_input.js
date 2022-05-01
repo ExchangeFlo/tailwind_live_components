@@ -12,6 +12,10 @@ export default {
     this.handleInput(this.$valueInput.value)
   },
 
+  updated() {
+    this.handleInput(this.$valueInput.value)
+  },
+
   handleInput(input) {
     let value = this.scrubInput(input)
 
