@@ -15,6 +15,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
@@ -32,6 +33,7 @@ defmodule TailwindLiveComponents.TextInput do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}
@@ -67,6 +69,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
@@ -84,6 +87,7 @@ defmodule TailwindLiveComponents.TextInput do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}
@@ -120,6 +124,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
@@ -140,6 +145,7 @@ defmodule TailwindLiveComponents.TextInput do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}
@@ -180,6 +186,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
@@ -197,6 +204,7 @@ defmodule TailwindLiveComponents.TextInput do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}
@@ -229,6 +237,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `detail` - Optional detail shown below the input
     * `placeholder` - Optional placeholder
     * `error` - Option error message
@@ -247,6 +256,7 @@ defmodule TailwindLiveComponents.TextInput do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}
@@ -286,6 +296,7 @@ defmodule TailwindLiveComponents.TextInput do
     * `longitude` - The longitude for the center point of the Places search
     * `country_code` - The country code to restrict Google Place search to (default is 'us')
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `detail` - Optional detail shown below the input
     * `placeholder` - Optional placeholder
     * `address_field_id` - Optional input id of the address field
@@ -320,6 +331,7 @@ defmodule TailwindLiveComponents.TextInput do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}
@@ -366,6 +378,7 @@ defmodule TailwindLiveComponents.TextInput do
     |> assign_new(:label_id, fn -> label_id end)
     |> assign_new(:label, fn -> nil end)
     |> assign_new(:value, fn -> Phoenix.HTML.Form.input_value(assigns.form, assigns.field) end)
+    |> assign_new(:required, fn -> "false" end)
     |> assign_new(:autocomplete, fn -> "off" end)
     |> assign_new(:placeholder, fn -> nil end)
     |> assign_new(:error, fn -> nil end)

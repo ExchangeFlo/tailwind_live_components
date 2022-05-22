@@ -20,6 +20,7 @@ defmodule TailwindLiveComponents.Listbox do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `value` - The current value for the input
     * `detail` - Optional detail shown below the input
     * `prompt` - An option to include at the top of the options with the given prompt text
@@ -48,6 +49,7 @@ defmodule TailwindLiveComponents.Listbox do
       |> assign_new(:prompt, fn -> prompt end)
       |> assign_new(:label_id, fn -> label_id end)
       |> assign_new(:label, fn -> nil end)
+      |> assign_new(:required, fn -> false end)
       |> assign_new(:error, fn -> nil end)
       |> assign_new(:detail, fn -> nil end)
       |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
@@ -70,6 +72,7 @@ defmodule TailwindLiveComponents.Listbox do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}

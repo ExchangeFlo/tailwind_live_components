@@ -20,6 +20,7 @@ defmodule TailwindLiveComponents.RadioGroup do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `value` - The current value for the input
     * `orientation` - "vertical" or "horizontal" (default is "vertical")
     * `prompt` - An option to include at the top of the options with the given prompt text
@@ -38,6 +39,7 @@ defmodule TailwindLiveComponents.RadioGroup do
       |> assign_new(:input_id, fn -> input_id end)
       |> assign_new(:label_id, fn -> label_id end)
       |> assign_new(:label, fn -> nil end)
+      |> assign_new(:required, fn -> false end)
       |> assign_new(:value, fn -> nil end)
       |> assign_new(:error, fn -> nil end)
       |> assign_new(:theme, fn -> %TailwindLiveComponents.Theme{} end)
@@ -63,6 +65,7 @@ defmodule TailwindLiveComponents.RadioGroup do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}

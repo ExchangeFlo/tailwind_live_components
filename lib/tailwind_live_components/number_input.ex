@@ -16,6 +16,7 @@ defmodule TailwindLiveComponents.NumberInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `value` - The current value for the input
     * `autocomplete` - Optional autocomplete attribute
     * `detail` - Optional detail shown below the input
@@ -37,6 +38,7 @@ defmodule TailwindLiveComponents.NumberInput do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}
@@ -75,6 +77,7 @@ defmodule TailwindLiveComponents.NumberInput do
     * `form` - The form identifier
     * `field` - The field name
     * `label` - The text for the generated `<label>` element
+    * `required` - Optional flag idicating field is required
     * `min` - min value for input
     * `max` - max value for input
     * `step` - Optional step for input
@@ -102,6 +105,7 @@ defmodule TailwindLiveComponents.NumberInput do
         field={@field}
         theme={@theme}
         label={@label}
+        required={@required}
         input_id={@input_id}
         label_id={@label_id}
         error={@error}
@@ -179,6 +183,7 @@ defmodule TailwindLiveComponents.NumberInput do
     |> assign_new(:input_id, fn -> input_id end)
     |> assign_new(:label_id, fn -> label_id end)
     |> assign_new(:label, fn -> nil end)
+    |> assign_new(:required, fn -> false end)
     |> assign_new(:value, fn -> value end)
     |> assign_new(:autocomplete, fn -> "off" end)
     |> assign_new(:step, fn -> 1 end)
