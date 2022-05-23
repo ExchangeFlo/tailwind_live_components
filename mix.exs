@@ -2,7 +2,7 @@ defmodule TailwindLiveComponents.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/ExchangeFlo/tailwind_live_components"
-  @version "0.5.3"
+  @version "0.5.4"
 
   def project do
     [
@@ -24,6 +24,8 @@ defmodule TailwindLiveComponents.MixProject do
       extra_applications: [:logger]
     ]
   end
+
+  def version, do: @version
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]

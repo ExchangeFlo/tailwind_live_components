@@ -38,15 +38,18 @@ defmodule TailwindLiveComponents.Label do
       <% end %>
 
       <%= if @error do %>
-        <span
-          id={@error_id}
-          class={"flex-1 #{@theme.error_text_color} text-sm"}
-          phx-feedback-for={@input_id}
-          phx-hook="tlcLabelError"
-          data-show={show_error()}
-        >
-          <%= @error %>
-        </span>
+        <div class="flex-1 flex justify-start">
+          <span
+            id={@error_id}
+            class={"#{@theme.error_text_color} text-sm"}
+            style="display: none"
+            phx-feedback-for={@input_id}
+            phx-hook="tlcLabelError"
+            data-show={show_error()}
+          >
+            <%= @error %>
+          </span>
+        </div>
       <% end %>
     </div>
     """
@@ -56,7 +59,7 @@ defmodule TailwindLiveComponents.Label do
     JS.show(js,
       time: 300,
       display: "inline-block",
-      transition: {"ease-out duration-300", "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95", "opacity-100 translate-y-0 sm:scale-100"}
+      transition: {"ease-out duration-300", "opacity-0 translate-x-8", "opacity-100 translate-x-0"}
     )
   end
 end
