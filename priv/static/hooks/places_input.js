@@ -19,7 +19,7 @@ export default {
       const center = {
         lat: parseFloat(this.latitude),
         lng: parseFloat(this.longitude)
-      };
+      }
 
       const autocomplete = new google.maps.places.Autocomplete(this.$valueInput, {
         // Create a bounding box with sides ~10km away from the center point
@@ -35,39 +35,45 @@ export default {
         types: ["address"],
       })
 
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
+      google.maps.event.addDomListener(this.$valueInput, 'keydown', function (event) {
+        if (event.keyCode === 13) {
+          event.preventDefault()
+        }
+      })
 
-        let addressValue = "";
-        let cityValue = "";
-        let stateValue = "";
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace()
+
+        let addressValue = ""
+        let cityValue = ""
+        let stateValue = ""
 
         for (const component of place.address_components) {
-          const componentType = component.types[0];
+          const componentType = component.types[0]
 
           switch (componentType) {
             case "street_number":
-              addressValue = `${component.long_name} ${addressValue}`;
-              break;
+              addressValue = `${component.long_name} ${addressValue}`
+              break
 
             case "route":
-              addressValue += component.short_name;
-              break;
+              addressValue += component.short_name
+              break
 
             case "locality":
-              cityValue = component.long_name;
-              break;
+              cityValue = component.long_name
+              break
 
             case "administrative_area_level_1":
-              stateValue = component.short_name;
-              break;
+              stateValue = component.short_name
+              break
           }
         }
 
         if (this.$addressInput) this.$addressInput.value = addressValue
         if (this.$cityInput) this.$cityInput.value = cityValue
         if (this.$stateInput) this.$stateInput.value = stateValue
-      });
+      })
     }
 
     this.loadGooglePlaces()
