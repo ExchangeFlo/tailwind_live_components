@@ -263,7 +263,7 @@ defmodule TailwindLiveComponents.TextInput do
       />
 
       <div class="relative mt-1 rounded-md shadow-sm">
-        <%= Phoenix.HTML.Form.text_input(
+        <%= Phoenix.HTML.Form.telephone_input(
           @form,
           @field,
           id: @input_id,
