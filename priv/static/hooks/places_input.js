@@ -10,6 +10,7 @@ export default {
     this.$addressInput = this.el.dataset.addressInputId ? document.querySelector('#' + this.el.dataset.addressInputId) : null
     this.$cityInput = this.el.dataset.cityInputId ? document.querySelector('#' + this.el.dataset.cityInputId) : null
     this.$stateInput = this.el.dataset.stateInputId ? document.querySelector('#' + this.el.dataset.stateInputId) : null
+    this.$zipInput = this.el.dataset.zipInputId ? document.querySelector('#' + this.el.dataset.zipInputId) : null
     this.apiKey = this.el.dataset.apiKey
     this.latitude = this.el.dataset.latitude
     this.longitude = this.el.dataset.longitude
@@ -47,6 +48,7 @@ export default {
         let addressValue = ""
         let cityValue = ""
         let stateValue = ""
+        let zipValue = ""
 
         for (const component of place.address_components) {
           const componentType = component.types[0]
@@ -67,12 +69,17 @@ export default {
             case "administrative_area_level_1":
               stateValue = component.short_name
               break
+
+            case "postal_code":
+              zipValue = component.short_name
+              break
           }
         }
 
-        if (this.$addressInput) this.$addressInput.value = addressValue
-        if (this.$cityInput) this.$cityInput.value = cityValue
-        if (this.$stateInput) this.$stateInput.value = stateValue
+        if (this.$addressInput && addressValue) this.$addressInput.value = addressValue
+        if (this.$cityInput && cityValue) this.$cityInput.value = cityValue
+        if (this.$stateInput && stateValue) this.$stateInput.value = stateValue
+        if (this.$zipInput && zipValue) this.$zipInput.value = zipValue
       })
     }
 

@@ -313,6 +313,7 @@ defmodule TailwindLiveComponents.TextInput do
       |> assign_new(:address_input_id, fn -> nil end)
       |> assign_new(:city_input_id, fn -> nil end)
       |> assign_new(:state_input_id, fn -> nil end)
+      |> assign_new(:zip_input_id, fn -> nil end)
 
     ~H"""
     <div
@@ -325,6 +326,7 @@ defmodule TailwindLiveComponents.TextInput do
       data-address-input-id={@address_input_id}
       data-city-input-id={@city_input_id}
       data-state-input-id={@state_input_id}
+      data-zip-input-id={@zip_input_id}
     >
       <Label.label
         form={@form}

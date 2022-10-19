@@ -11,7 +11,7 @@ The package can be installed by adding `tailwind_live_components` to your list o
 ```elixir
 def deps do
   [
-    {:tailwind_live_components, "~> 0.5.5"}
+    {:tailwind_live_components, "~> 0.5.7"}
   ]
 end
 ```
