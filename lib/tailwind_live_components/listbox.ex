@@ -105,12 +105,12 @@ defmodule TailwindLiveComponents.Listbox do
           style="display: none;"
           class={"absolute z-10 mt-1 w-full #{@theme.bg_color} shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-md transition"}
         >
-          <%= for {%{value: value} = option, index} <- Enum.with_index(@options) do %>
+          <%= for {%{value: v} = option, index} <- Enum.with_index(@options) do %>
             <.listbox_option
               option={option}
               index={index}
               option_id={"#{@input_id}-option-#{index}"}
-              selected={value == @selected_value}
+              selected={v == @selected_value}
               theme={@theme}
             />
           <% end %>
@@ -133,8 +133,8 @@ defmodule TailwindLiveComponents.Listbox do
     <div
       id={@option_id}
       role="option"
-      data-value={@option.value}
-      data-display={@option.display}
+      data-value={@value}
+      data-display={@display}
       class={"cursor-default select-none relative py-2 pl-3 pr-9 #{option_classes(@theme, @selected)}"}
       data-listbox-option-active={listbox_option_background_active(@theme)}
       data-listbox-option-inactive={listbox_option_background_inactive(@theme)}
