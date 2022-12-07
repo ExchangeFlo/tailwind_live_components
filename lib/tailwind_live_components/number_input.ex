@@ -145,7 +145,7 @@ defmodule TailwindLiveComponents.NumberInput do
           ></div>
         </div>
 
-        <div class={"flex items-center justify-between pt-4 space-x-4 text-md #{@theme.text_color}"}>
+        <div class={"flex items-center justify-between pt-6 space-x-4 text-md #{@theme.text_color}"}>
           <span><%= @prefix %><%= Number.Delimit.number_to_delimited(@min, precision: 0) %></span>
 
           <span class="flex font-semibold text-2xl">
