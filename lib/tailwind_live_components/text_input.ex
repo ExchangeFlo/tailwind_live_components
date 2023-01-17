@@ -161,7 +161,7 @@ defmodule TailwindLiveComponents.TextInput do
         ) %>
 
         <input
-          type="text"
+          type="tel"
           data-tlc-ref="displayInput"
           autocomplete={@autocomplete}
           tabindex="0"
