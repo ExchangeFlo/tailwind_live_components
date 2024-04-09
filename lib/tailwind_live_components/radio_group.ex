@@ -144,7 +144,7 @@ defmodule TailwindLiveComponents.RadioGroup do
           <div class="text-md">
             <p
               id={@option_label_id}
-              class="font-bold"
+              class="font-bold text-left text-pretty"
               data-radiogroup-option-selected={radiogroup_option_display_selected(@theme)}
               data-radiogroup-option-not-selected={radiogroup_option_display_not_selected(@theme)}
             >
@@ -213,7 +213,7 @@ defmodule TailwindLiveComponents.RadioGroup do
             <% end %>
             <span
               id={@option_label_id}
-              class="font-bold text-md"
+              class="font-bold text-md text-left text-pretty"
               data-radiogroup-option-selected={radiogroup_option_display_selected(@theme)}
               data-radiogroup-option-not-selected={radiogroup_option_display_not_selected(@theme)}
             >
